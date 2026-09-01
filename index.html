@@ -41,8 +41,8 @@
     }
 
     .container {
-      position:relative; z-index:10;
-      width:100%; max-width:460px;
+      position:relative;
+      width:100%;
       text-align:center;
       padding:48px 30px 38px;
       background:
@@ -339,12 +339,12 @@
 
     @media (max-width:480px) {
       body { padding:24px 10px; }
+      #card-tilt { max-width:100%; }
       .container {
         padding:36px 20px 30px;
         border-radius:22px;
         border-left-color:transparent;
         border-right-color:transparent;
-        max-width:100%;
       }
       .profile-image { width:110px; height:110px; }
       .link {
@@ -361,12 +361,92 @@
       .container { border-radius:16px; }
     }
 
+    /* ── Card tilt wrapper ── */
+    #card-tilt {
+      transform-style:preserve-3d;
+      will-change:transform;
+      position:relative; z-index:10;
+      width:100%; max-width:460px;
+    }
+
+    /* ── Card breathe (inner) ── */
+    @keyframes card-breathe {
+      0%,100% { transform:scale(1.000); }
+      50%      { transform:scale(1.004); }
+    }
+    .container {
+      animation:card-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both,
+                card-breathe 7s ease-in-out 1s infinite;
+    }
+
+    /* ── Vignette pulse ── */
+    #vignette {
+      position:fixed; inset:0; z-index:2; pointer-events:none;
+      background:radial-gradient(ellipse 100% 100% at 50% 50%,
+        transparent 40%, rgba(0,0,0,0.72) 100%);
+      animation:vignette-pulse 4s ease-in-out infinite;
+    }
+    @keyframes vignette-pulse {
+      0%,100% { opacity:0.7; }
+      50%      { opacity:1.0; }
+    }
+
+    /* ── Name flicker ── */
+    @keyframes name-glitch {
+      0%   { opacity:1;    clip-path:none; }
+      2%   { opacity:0.05; clip-path:inset(40% 0 40% 0); }
+      4%   { opacity:1;    clip-path:none; transform:translateX(0); }
+      5%   { opacity:0.2;  clip-path:inset(20% 0 60% 0); transform:translateX(-3px); }
+      6%   { opacity:1;    clip-path:none; transform:translateX(0); }
+      100% { opacity:1;    clip-path:none; }
+    }
+    h1.glitching {
+      animation:name-glitch 0.18s steps(1) forwards;
+    }
+
+    /* ── Blood drip ── */
+    #blood-drip {
+      position:absolute;
+      top:0; right:18px;
+      width:3px; height:0;
+      background:linear-gradient(180deg, #8b0000 0%, #cc0000 60%, transparent 100%);
+      border-radius:0 0 4px 4px;
+      z-index:20;
+      opacity:0;
+      pointer-events:none;
+    }
+    #blood-drip::after {
+      content:'';
+      position:absolute;
+      bottom:-6px; left:-3px;
+      width:9px; height:9px;
+      background:#cc0000;
+      border-radius:50% 50% 60% 60%;
+      opacity:0.85;
+    }
+    @keyframes drip-grow {
+      0%   { height:0;    opacity:0.9; }
+      85%  { height:180px; opacity:0.85; }
+      95%  { height:185px; opacity:0.6; }
+      100% { height:185px; opacity:0; }
+    }
+
+    /* ── 3D tilt — handled via JS inline transform ── */
+
+    /* ── Magnetic buttons — handled via JS ── */
+    .link { transition:
+      transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+      box-shadow 0.25s ease,
+      border-color 0.25s ease,
+      filter 0.25s ease; }
+
     @media (prefers-reduced-motion:reduce) {
       .energy-ring::before,
       .energy-ring::after,
       .profile-glow,
       .orb { animation:none; }
       .container, body, h1, .link, .profile-wrap { animation:none; opacity:1; transform:none; }
+      #vignette { animation:none; }
     }
   </style>
 </head>
@@ -375,9 +455,12 @@
 <div class="bg-layer"></div>
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
+<div id="vignette"></div>
 <canvas id="ember-canvas"></canvas>
 
+<div id="card-tilt">
 <main class="container">
+  <div id="blood-drip"></div>
 
   <div class="profile-wrap">
     <div class="profile-glow"></div>
@@ -434,8 +517,14 @@
   <div class="footer">© 2026 Dominated By Carl</div>
 
 </main>
+</div><!-- #card-tilt -->
 
 <script>
+  // ─── Shared mouse state ───────────────────────────────────────────
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  // ─── Ember canvas ─────────────────────────────────────────────────
   const canvas = document.getElementById('ember-canvas');
   const ctx = canvas.getContext('2d');
   let W, H, embers = [];
@@ -450,13 +539,6 @@
   window.addEventListener('resize', () => { resize(); rebuildEmbers(); });
 
   function rand(a, b) { return a + Math.random() * (b - a); }
-
-  function spawnX() {
-    const r = Math.random();
-    if (r < 0.25) return rand(0, W * 0.18);
-    if (r < 0.5) return rand(W * 0.82, W);
-    return rand(W * 0.1, W * 0.9);
-  }
 
   class Ember {
     constructor(fromBottom) { this.reset(fromBottom); }
@@ -486,6 +568,17 @@
         if (this.history.length > 6) this.history.shift();
       }
       this.wobble += this.wobbleSpeed;
+
+      // ── Cursor repulsion: embers scatter away from mouse ──
+      const dx = this.x - mouseX, dy = this.y - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const influence = 110;
+      if (dist < influence && dist > 0) {
+        const force = (1 - dist / influence) * 0.55;
+        this.x += (dx / dist) * force;
+        this.y += (dy / dist) * force;
+      }
+
       this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
       this.y += this.vy;
       this.alpha -= this.decay;
@@ -529,7 +622,6 @@
     while (embers.length > c) embers.pop();
     while (embers.length < c) embers.push(new Ember(false));
   }
-
   rebuildEmbers();
 
   function animate() {
@@ -542,6 +634,108 @@
     requestAnimationFrame(animate);
   }
   animate();
+
+  // ─── 3D card tilt ─────────────────────────────────────────────────
+  const cardTilt = document.getElementById('card-tilt');
+  let tiltX = 0, tiltY = 0;
+  let targetTiltX = 0, targetTiltY = 0;
+  const MAX_TILT = 9;
+
+  function applyTilt() {
+    tiltX += (targetTiltX - tiltX) * 0.08;
+    tiltY += (targetTiltY - tiltY) * 0.08;
+    cardTilt.style.transform = `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    requestAnimationFrame(applyTilt);
+  }
+
+  window.addEventListener('mousemove', e => {
+    if (isMobile()) return;
+    const rect = cardTilt.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (window.innerWidth / 2);
+    const dy = (e.clientY - cy) / (window.innerHeight / 2);
+    targetTiltY =  dx * MAX_TILT;
+    targetTiltX = -dy * MAX_TILT;
+  });
+
+  window.addEventListener('mouseleave', () => {
+    targetTiltX = 0;
+    targetTiltY = 0;
+  });
+
+  applyTilt();
+
+  // ─── Magnetic buttons ─────────────────────────────────────────────
+  document.querySelectorAll('.link').forEach(btn => {
+    const RADIUS = 90, STRENGTH = 0.38;
+    let bx = 0, by = 0, active = false;
+
+    function magnetLoop() {
+      if (!active) {
+        bx += (0 - bx) * 0.12;
+        by += (0 - by) * 0.12;
+      }
+      btn.style.transform = `translate(${bx}px, ${by}px)`;
+      requestAnimationFrame(magnetLoop);
+    }
+    magnetLoop();
+
+    window.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < RADIUS) {
+        active = true;
+        const pull = (1 - dist / RADIUS) * STRENGTH;
+        bx += (dx * pull - bx) * 0.18;
+        by += (dy * pull - by) * 0.18;
+      } else {
+        active = false;
+      }
+    });
+  });
+
+  // ─── Name flicker (rare, every 20–30s) ────────────────────────────
+  const h1 = document.querySelector('h1');
+  function scheduleFlicker() {
+    const delay = rand(20000, 30000);
+    setTimeout(() => {
+      h1.classList.add('glitching');
+      h1.addEventListener('animationend', () => {
+        h1.classList.remove('glitching');
+        scheduleFlicker();
+      }, { once: true });
+    }, delay);
+  }
+  scheduleFlicker();
+
+  // ─── Blood drip ───────────────────────────────────────────────────
+  const drip = document.getElementById('blood-drip');
+
+  function runDrip() {
+    drip.style.animation = 'none';
+    drip.style.opacity = '0';
+    drip.style.height = '0';
+    // Force reflow
+    void drip.offsetWidth;
+    drip.style.animation = 'drip-grow 3.8s cubic-bezier(0.4,0,0.6,1) forwards';
+    drip.addEventListener('animationend', () => {
+      drip.style.opacity = '0';
+      scheduleDrip();
+    }, { once: true });
+  }
+
+  function scheduleDrip() {
+    // On small screens: every 18–28s. Easter egg on desktop: every 45–90s
+    const delay = isMobile() ? rand(18000, 28000) : rand(45000, 90000);
+    setTimeout(runDrip, delay);
+  }
+
+  scheduleDrip();
 </script>
 </body>
 </html>
