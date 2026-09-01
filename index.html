@@ -208,6 +208,7 @@
     .link:nth-child(1) { animation:btn-in 0.5s cubic-bezier(0.22,1,0.36,1) 0.55s both; }
     .link:nth-child(2) { animation:btn-in 0.5s cubic-bezier(0.22,1,0.36,1) 0.68s both; }
     .link:nth-child(3) { animation:btn-in 0.5s cubic-bezier(0.22,1,0.36,1) 0.81s both; }
+    .link:nth-child(4) { animation:btn-in 0.5s cubic-bezier(0.22,1,0.36,1) 0.94s both; }
 
     @keyframes btn-in {
       from { opacity:0; transform:translateY(14px); }
@@ -302,6 +303,18 @@
       border-color:rgba(240,100,150,0.6);
     }
 
+    .tiktok {
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(15,15,17,0.94), rgba(35,32,38,0.9));
+      border:1px solid rgba(37,244,238,0.32);
+      box-shadow:0 4px 24px rgba(254,44,85,0.24), 0 0 0 1px rgba(255,255,255,0.04) inset;
+    }
+    .tiktok:hover {
+      box-shadow:0 14px 40px rgba(254,44,85,0.45), 0 0 0 1px rgba(255,255,255,0.08) inset;
+      border-color:rgba(37,244,238,0.65);
+    }
+
     .link-icon {
       width:22px; height:22px;
       flex-shrink:0; display:flex; align-items:center; justify-content:center;
@@ -361,6 +374,7 @@
       .container { border-radius:16px; }
     }
 
+    /* ── Card tilt wrapper ── */
     #card-tilt {
       transform-style:preserve-3d;
       will-change:transform;
@@ -368,6 +382,7 @@
       width:100%; max-width:460px;
     }
 
+    /* ── Card breathe (inner) ── */
     @keyframes card-breathe {
       0%,100% { transform:scale(1.000); }
       50%      { transform:scale(1.004); }
@@ -377,6 +392,7 @@
                 card-breathe 7s ease-in-out 1s infinite;
     }
 
+    /* ── Vignette pulse ── */
     #vignette {
       position:fixed; inset:0; z-index:2; pointer-events:none;
       background:radial-gradient(ellipse 100% 100% at 50% 50%,
@@ -388,6 +404,7 @@
       50%      { opacity:1.0; }
     }
 
+    /* ── Name flicker ── */
     @keyframes name-glitch {
       0%   { opacity:1;    clip-path:none; }
       2%   { opacity:0.05; clip-path:inset(40% 0 40% 0); }
@@ -400,6 +417,7 @@
       animation:name-glitch 0.18s steps(1) forwards;
     }
 
+    /* ── Blood drip ── */
     #blood-drip {
       position:absolute;
       top:0; right:18px;
@@ -426,7 +444,9 @@
       100% { height:185px; opacity:0; }
     }
 
+    /* ── 3D tilt — handled via JS inline transform ── */
 
+    /* ── Magnetic buttons — handled via JS ── */
     .link { transition:
       transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
       box-shadow 0.25s ease,
@@ -505,17 +525,32 @@
       <span class="link-arrow">›</span>
     </a>
 
+    <a class="link tiktok"
+      href="https://www.tiktok.com/@dominatedbycarl"
+      target="_blank" rel="noopener noreferrer">
+      <span class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.32 1.4V7.36s-1.88.09-3.26-1.54z"/>
+        </svg>
+      </span>
+      <span class="link-text">Follow on TikTok</span>
+      <div class="link-shine"></div>
+      <span class="link-arrow">›</span>
+    </a>
+
   </div>
 
   <div class="footer">© 2026 Dominated By Carl</div>
 
 </main>
-</div>
+</div><!-- #card-tilt -->
 
 <script>
+  // ─── Shared mouse state ───────────────────────────────────────────
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
+  // ─── Ember canvas ─────────────────────────────────────────────────
   const canvas = document.getElementById('ember-canvas');
   const ctx = canvas.getContext('2d');
   let W, H, embers = [];
@@ -560,6 +595,7 @@
       }
       this.wobble += this.wobbleSpeed;
 
+      // ── Cursor repulsion: embers scatter away from mouse ──
       const dx = this.x - mouseX, dy = this.y - mouseY;
       const dist = Math.sqrt(dx * dx + dy * dy);
       const influence = 110;
@@ -625,6 +661,7 @@
   }
   animate();
 
+  // ─── 3D card tilt ─────────────────────────────────────────────────
   const cardTilt = document.getElementById('card-tilt');
   let tiltX = 0, tiltY = 0;
   let targetTiltX = 0, targetTiltY = 0;
@@ -655,16 +692,38 @@
 
   applyTilt();
 
+  // ─── Magnetic buttons ─────────────────────────────────────────────
+  // Note: previously this loop wrote an inline `transform` on every single
+  // animation frame — including frames where the offset was (0,0). That
+  // inline style has higher priority than CSS, so it silently cancelled
+  // the button's entrance slide-in animation and the CSS hover/active
+  // lift the whole time. Now we only set an inline transform while the
+  // magnet pull or a hover/press lift is actually non-zero, and clear it
+  // otherwise so CSS (entrance animation, :hover, :active) can do its job.
   document.querySelectorAll('.link').forEach(btn => {
     const RADIUS = 90, STRENGTH = 0.38;
     let bx = 0, by = 0, active = false;
+    let hovering = false, pressed = false;
+
+    btn.addEventListener('mouseenter', () => { hovering = true; });
+    btn.addEventListener('mouseleave', () => { hovering = false; });
+    btn.addEventListener('mousedown', () => { pressed = true; });
+    btn.addEventListener('mouseup', () => { pressed = false; });
+    btn.addEventListener('touchstart', () => { pressed = true; }, { passive: true });
+    btn.addEventListener('touchend', () => { pressed = false; });
 
     function magnetLoop() {
       if (!active) {
         bx += (0 - bx) * 0.12;
         by += (0 - by) * 0.12;
       }
-      btn.style.transform = `translate(${bx}px, ${by}px)`;
+      const lift = pressed ? -1 : (hovering ? -3 : 0);
+
+      if (Math.abs(bx) > 0.05 || Math.abs(by) > 0.05 || lift !== 0) {
+        btn.style.transform = `translate(${bx}px, ${by + lift}px)`;
+      } else if (btn.style.transform) {
+        btn.style.transform = '';
+      }
       requestAnimationFrame(magnetLoop);
     }
     magnetLoop();
@@ -687,6 +746,7 @@
     });
   });
 
+  // ─── Name flicker (rare, every 20–30s) ────────────────────────────
   const h1 = document.querySelector('h1');
   function scheduleFlicker() {
     const delay = rand(20000, 30000);
@@ -700,12 +760,14 @@
   }
   scheduleFlicker();
 
+  // ─── Blood drip ───────────────────────────────────────────────────
   const drip = document.getElementById('blood-drip');
 
   function runDrip() {
     drip.style.animation = 'none';
     drip.style.opacity = '0';
     drip.style.height = '0';
+    // Force reflow
     void drip.offsetWidth;
     drip.style.animation = 'drip-grow 3.8s cubic-bezier(0.4,0,0.6,1) forwards';
     drip.addEventListener('animationend', () => {
@@ -715,6 +777,7 @@
   }
 
   function scheduleDrip() {
+    // On small screens: every 18–28s. Easter egg on desktop: every 45–90s
     const delay = isMobile() ? rand(18000, 28000) : rand(45000, 90000);
     setTimeout(runDrip, delay);
   }
