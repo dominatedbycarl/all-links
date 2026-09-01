@@ -1,325 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dominated By Carl | Official Links</title>
-
-    <!-- Browser Tab Icon / Favicon -->
-    <link rel="icon" type="image/jpeg" href="favicon.jpg">
-    <link rel="shortcut icon" type="image/jpeg" href="channels4_profile.jpg">
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            background: #050505;
-            color: white;
-            overflow-x: hidden;
-            padding: 30px 15px;
-        }
-
-        /* Red glowing background */
-        body::before {
-            content: "";
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            background: #ff0000;
-            filter: blur(200px);
-            opacity: 0.12;
-            top: -300px;
-            left: -250px;
-            z-index: -1;
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            background: #ff0000;
-            filter: blur(200px);
-            opacity: 0.10;
-            bottom: -300px;
-            right: -250px;
-            z-index: -1;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            padding: 40px 25px;
-
-            background: rgba(15, 15, 15, 0.95);
-
-            border: 1px solid rgba(255, 0, 0, 0.4);
-
-            border-radius: 25px;
-
-            box-shadow:
-                0 0 20px rgba(255, 0, 0, 0.15),
-                0 20px 80px rgba(0, 0, 0, 0.9);
-        }
-
-        /* Profile Image */
-        .profile-image {
-
-            width: 160px;
-            height: 160px;
-
-            object-fit: cover;
-
-            border-radius: 50%;
-
-            border: 2px solid #ff1a1a;
-
-            box-shadow:
-                0 0 20px rgba(255, 0, 0, 0.5),
-                0 0 50px rgba(255, 0, 0, 0.2);
-
-            margin-bottom: 20px;
-
-            transition: 0.3s;
-
-        }
-
-        .profile-image:hover {
-
-            transform: scale(1.05);
-
-            box-shadow:
-                0 0 30px rgba(255, 0, 0, 0.8),
-                0 0 80px rgba(255, 0, 0, 0.3);
-
-        }
-
-        h1 {
-
-            font-size: 2.2rem;
-
-            margin-bottom: 10px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-
-        }
-
-        .description {
-
-            color: #aaa;
-
-            margin-bottom: 30px;
-
-            font-size: 1rem;
-
-        }
-
-        .links {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 15px;
-
-        }
-
-        .link {
-
-            text-decoration: none;
-
-            color: white;
-
-            padding: 18px;
-
-            border-radius: 12px;
-
-            font-size: 1.1rem;
-
-            font-weight: bold;
-
-            transition: 0.25s;
-
-            border: 1px solid rgba(255, 255, 255, 0.08);
-
-        }
-
-        .link:hover {
-
-            transform: translateY(-4px) scale(1.02);
-
-            filter: brightness(1.2);
-
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-
-        }
-
-        /* Twitch */
-
-        .twitch {
-
-            background: linear-gradient(
-                90deg,
-                #3c1d63,
-                #9146ff
-            );
-
-        }
-
-        /* YouTube */
-
-        .youtube {
-
-            background: linear-gradient(
-                90deg,
-                #8f0000,
-                #ff0000
-            );
-
-        }
-
-        /* Instagram */
-
-        .instagram {
-
-            background: linear-gradient(
-                90deg,
-                #833ab4,
-                #fd1d1d,
-                #fcb045
-            );
-
-        }
-
-        .footer {
-
-            margin-top: 30px;
-
-            font-size: 0.8rem;
-
-            color: #666;
-
-        }
-
-        @media (max-width: 500px) {
-
-            .container {
-
-                padding: 30px 18px;
-
-            }
-
-            h1 {
-
-                font-size: 1.7rem;
-
-            }
-
-            .profile-image {
-
-                width: 130px;
-                height: 130px;
-
-            }
-
-        }
-
-    </style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Dominated By Carl | Official Links</title>
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <link rel="shortcut icon" type="image/jpeg" href="favicon.jpg">
+  <style>
+    *, *::before, *::after {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    :root {
+      --red: #ff1a1a;
+      --red-dim: #cc0000;
+      --red-glow: rgba(255,26,26,0.6);
+      --red-subtle: rgba(255,26,26,0.12);
+      --glass-bg: rgba(10,0,0,0.55);
+      --glass-border: rgba(255,60,60,0.25);
+      --glass-shine: rgba(255,255,255,0.06);
+    }
+
+    html, body {
+      min-height: 100%;
+      width: 100%;
+    }
+
+    body {
+      min-height: 100svh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #070000;
+      color: #fff;
+      overflow-x: hidden;
+      padding: 40px 16px;
+    }
+
+    /* Deep space background */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% -10%, rgba(180,0,0,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 90% 110%, rgba(140,0,0,0.14) 0%, transparent 70%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, rgba(30,0,0,0.8) 0%, #070000 100%);
+    }
+
+    /* Ember canvas */
+    #ember-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Main card */
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 460px;
+      text-align: center;
+      padding: 44px 28px 36px;
+
+      /* Layered glass */
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.055) 0%, transparent 50%),
+        var(--glass-bg);
+
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 1px 0 rgba(255,255,255,0.10) inset,
+        0 0 40px rgba(255,20,20,0.18),
+        0 0 100px rgba(200,0,0,0.08),
+        0 40px 80px rgba(0,0,0,0.8);
+    }
+
+    /* Subtle shimmer line at top of card */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 16px; right: 16px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,150,150,0.4), transparent);
+      border-radius: 100%;
+    }
+
+    /* Profile image */
+    .profile-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 22px;
+    }
+
+    .profile-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        #ff0000, #ff4444, #ff0000, #cc0000, #ff0000
+      );
+      animation: spin 4s linear infinite;
+      z-index: 0;
+    }
+
+    .profile-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,0,0,0.3) 0%, transparent 70%);
+      animation: pulse-ring 2.5s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse-ring {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    .profile-image {
+      position: relative;
+      z-index: 1;
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #070000;
+      display: block;
+    }
+
+    /* Name */
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #fff 20%, #ff9999 60%, #ff3333 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      line-height: 1.15;
+    }
+
+    .description {
+      color: rgba(255,180,180,0.6);
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* Links */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .link {
+      text-decoration: none;
+      color: #fff;
+      padding: 17px 22px;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, filter 0.22s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* Glass shine on links */
+    .link::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), transparent);
+      border-radius: 16px 16px 0 0;
+      pointer-events: none;
+    }
+
+    .link:hover {
+      transform: translateY(-4px) scale(1.025);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 30px var(--link-glow, rgba(255,255,255,0.1));
+      filter: brightness(1.15);
+    }
+
+    .link:active {
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    /* Twitch */
+    .twitch {
+      --link-glow: rgba(145,70,255,0.5);
+      background: linear-gradient(135deg,
+        rgba(60,29,99,0.9) 0%,
+        rgba(145,70,255,0.85) 100%);
+      border-color: rgba(145,70,255,0.4);
+      box-shadow: 0 4px 20px rgba(145,70,255,0.2);
+    }
+
+    /* YouTube */
+    .youtube {
+      --link-glow: rgba(255,0,0,0.6);
+      background: linear-gradient(135deg,
+        rgba(100,0,0,0.9) 0%,
+        rgba(255,0,0,0.85) 100%);
+      border-color: rgba(255,60,60,0.4);
+      box-shadow: 0 4px 20px rgba(255,0,0,0.25);
+    }
+
+    /* Instagram */
+    .instagram {
+      --link-glow: rgba(253,29,29,0.4);
+      background: linear-gradient(135deg,
+        rgba(100,30,140,0.9) 0%,
+        rgba(200,30,30,0.85) 50%,
+        rgba(200,140,20,0.85) 100%);
+      border-color: rgba(253,100,100,0.3);
+      box-shadow: 0 4px 20px rgba(180,50,100,0.25);
+    }
+
+    .link-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 28px;
+      font-size: 0.72rem;
+      color: rgba(255,100,100,0.25);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Floating orbs behind card */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(80px);
+      z-index: 0;
+    }
+    .orb-1 {
+      width: 500px; height: 500px;
+      background: rgba(180,0,0,0.15);
+      top: -200px; left: -200px;
+      animation: orb-drift 12s ease-in-out infinite alternate;
+    }
+    .orb-2 {
+      width: 400px; height: 400px;
+      background: rgba(120,0,0,0.12);
+      bottom: -150px; right: -150px;
+      animation: orb-drift 15s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes orb-drift {
+      0% { transform: translate(0,0); }
+      100% { transform: translate(40px, 40px); }
+    }
+
+    /* Mobile refinements */
+    @media (max-width: 480px) {
+      .container {
+        padding: 36px 20px 30px;
+        border-radius: 24px;
+      }
+      .profile-image { width: 110px; height: 110px; }
+      .link { padding: 15px 18px; font-size: 0.95rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .profile-wrap::before,
+      .profile-wrap::after,
+      .orb { animation: none; }
+    }
+  </style>
 </head>
-
 <body>
 
-    <main class="container">
+  <div class="bg-layer"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <canvas id="ember-canvas"></canvas>
 
-        <!-- YOUR PROFILE IMAGE -->
+  <main class="container">
 
-        <img
-            src="channels4_profile.jpg"
-            alt="Dominated By Carl"
-            class="profile-image"
-        >
+    <div class="profile-wrap">
+      <img
+        src="favicon.jpg"
+        alt="Dominated By Carl"
+        class="profile-image"
+      >
+    </div>
 
-        <h1>Dominated By Carl</h1>
+    <h1>Dominated By Carl</h1>
 
-        <p class="description">
-            Follow Dominated By Carl on all platforms!
-        </p>
+    <p class="description">Follow on all platforms</p>
 
+    <div class="links">
 
-        <div class="links">
+      <a class="link twitch"
+        href="https://www.twitch.tv/dominatedbycarl"
+        target="_blank" rel="noopener noreferrer">
+        <span class="link-icon">🎮</span>
+        Watch on Twitch
+      </a>
 
+      <a class="link youtube"
+        href="https://youtube.com/@dominatedbycarl?si=-bWidBZ9_rZZBBC2"
+        target="_blank" rel="noopener noreferrer">
+        <span class="link-icon">▶</span>
+        Subscribe on YouTube
+      </a>
 
-            <!-- TWITCH -->
+      <a class="link instagram"
+        href="https://www.instagram.com/dominatedbycarl?igsi=Njh4a2RlZm94Zm85"
+        target="_blank" rel="noopener noreferrer">
+        <span class="link-icon">📸</span>
+        Follow on Instagram
+      </a>
 
-            <a
-                class="link twitch"
-                href="https://www.twitch.tv/dominatedbycarl"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
+    </div>
 
-                🎮 Watch on Twitch
+    <div class="footer">© 2026 Dominated By Carl</div>
 
-            </a>
+  </main>
 
+  <script>
+    const canvas = document.getElementById('ember-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, embers = [];
+    const EMBER_COUNT = 90;
 
-            <!-- YOUTUBE -->
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
 
-            <a
-                class="link youtube"
-                href="https://youtube.com/@dominatedbycarl?si=-bWidBZ9_rZZBBC2"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
+    function randomBetween(a, b) { return a + Math.random() * (b - a); }
 
-                ▶ Subscribe on YouTube
+    class Ember {
+      constructor(fromBottom) {
+        this.reset(fromBottom);
+      }
+      reset(fromBottom) {
+        this.x = randomBetween(0, W);
+        this.y = fromBottom ? H + randomBetween(10, 50) : randomBetween(-50, H);
+        this.vx = randomBetween(-0.6, 0.6);
+        this.vy = randomBetween(-2.5, -0.6);
+        this.size = randomBetween(1.2, 3.5);
+        this.alpha = randomBetween(0.4, 1);
+        this.decay = randomBetween(0.003, 0.009);
+        this.wobble = randomBetween(0, Math.PI * 2);
+        this.wobbleSpeed = randomBetween(0.02, 0.06);
+        this.wobbleAmp = randomBetween(0.2, 0.8);
+        // Color: from bright yellow-white → orange → deep red
+        const t = Math.random();
+        if (t < 0.15) {
+          this.r = 255; this.g = 240; this.b = 180; // near-white hot
+        } else if (t < 0.45) {
+          this.r = 255; this.g = randomBetween(80, 160); this.b = 20; // orange
+        } else {
+          this.r = 255; this.g = randomBetween(10, 60); this.b = 0; // red
+        }
+      }
+      update() {
+        this.wobble += this.wobbleSpeed;
+        this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+        this.size *= 0.9985;
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        // Glow
+        const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 3.5);
+        grd.addColorStop(0, `rgba(${this.r},${this.g},${this.b},1)`);
+        grd.addColorStop(0.4, `rgba(${this.r},${Math.max(0,this.g-40)},0,0.5)`);
+        grd.addColorStop(1, `rgba(180,0,0,0)`);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+        // Core
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgb(${this.r},${this.g},${this.b})`;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
 
-            </a>
+    for (let i = 0; i < EMBER_COUNT; i++) {
+      embers.push(new Ember(false));
+    }
 
-
-            <!-- INSTAGRAM -->
-
-            <a
-                class="link instagram"
-                href="https://www.instagram.com/dominatedbycarl?igsi=Njh4a2RlZm94Zm85"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-
-                📸 Follow on Instagram
-
-            </a>
-
-
-        </div>
-
-
-        <div class="footer">
-
-            © 2026 Dominated By Carl
-
-        </div>
-
-    </main>
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+      for (let e of embers) {
+        e.update();
+        e.draw();
+        if (e.alpha <= 0 || e.y < -30 || e.x < -30 || e.x > W + 30) {
+          e.reset(true);
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 
 </body>
-
 </html>
