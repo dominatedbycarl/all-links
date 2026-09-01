@@ -8,7 +8,6 @@
   <link rel="shortcut icon" type="image/jpeg" href="favicon.jpg">
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
     html, body { min-height:100%; width:100%; }
 
     body {
@@ -21,6 +20,12 @@
       color:#fff;
       overflow-x:hidden;
       padding:40px 16px;
+      opacity:0;
+      animation:body-in 0.6s ease forwards;
+    }
+
+    @keyframes body-in {
+      to { opacity:1; }
     }
 
     .bg-layer {
@@ -35,7 +40,6 @@
       position:fixed; inset:0; z-index:1; pointer-events:none;
     }
 
-    /* ── CARD ── */
     .container {
       position:relative; z-index:10;
       width:100%; max-width:460px;
@@ -55,6 +59,12 @@
         0 0 50px rgba(255,10,10,0.14),
         0 0 120px rgba(180,0,0,0.07),
         0 50px 90px rgba(0,0,0,0.85);
+      animation:card-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+    }
+
+    @keyframes card-in {
+      from { transform:translateY(20px); opacity:0; }
+      to { transform:translateY(0); opacity:1; }
     }
 
     .container::before {
@@ -64,47 +74,110 @@
       border-radius:100%;
     }
 
-    /* ── PROFILE ── */
     .profile-wrap {
       position:relative; display:inline-block; margin-bottom:24px;
+      animation:profile-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.25s both;
     }
 
-    .ring-spin {
-      position:absolute; inset:-5px; border-radius:50%; z-index:0;
-      background:conic-gradient(from 0deg, #ff0000, #ff5500, #ffcc00, #ff0000, #cc0000, #ff0000);
-      animation:spin 5s linear infinite;
+    @keyframes profile-in {
+      from { transform:scale(0.9); opacity:0; }
+      to { transform:scale(1); opacity:1; }
     }
 
-    .ring-blur {
-      position:absolute; inset:-14px; border-radius:50%; z-index:0;
-      background:radial-gradient(circle, rgba(255,30,30,0.35) 0%, transparent 70%);
-      animation:pulse-ring 3s ease-in-out infinite;
+    .profile-glow {
+      position:absolute;
+      inset:-28px;
+      border-radius:50%;
+      z-index:0;
+      background:radial-gradient(circle, rgba(255,60,0,0.22) 0%, rgba(200,0,0,0.1) 45%, transparent 70%);
+      animation:profile-glow-pulse 3.5s ease-in-out infinite;
     }
 
-    @keyframes spin { to { transform:rotate(360deg); } }
-    @keyframes pulse-ring {
+    @keyframes profile-glow-pulse {
       0%,100% { transform:scale(1); opacity:0.7; }
-      50% { transform:scale(1.18); opacity:1; }
+      50% { transform:scale(1.12); opacity:1; }
+    }
+
+    .energy-ring {
+      position:absolute;
+      inset:-6px;
+      border-radius:50%;
+      z-index:1;
+      background:transparent;
+      padding:2px;
+    }
+
+    .energy-ring::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      background:conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(255,80,0,0.9) 40deg,
+        rgba(255,30,0,1) 80deg,
+        rgba(255,120,20,0.95) 120deg,
+        rgba(255,50,0,0.85) 160deg,
+        transparent 200deg,
+        rgba(200,20,0,0.5) 240deg,
+        rgba(255,70,10,0.8) 280deg,
+        rgba(255,40,0,1) 320deg,
+        transparent 360deg
+      );
+      animation:energy-spin 4s linear infinite;
+      mask:radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px));
+      -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px));
+    }
+
+    .energy-ring::after {
+      content:'';
+      position:absolute;
+      inset:-2px;
+      border-radius:50%;
+      background:conic-gradient(
+        from 180deg,
+        transparent 0deg,
+        rgba(255,80,0,0.5) 40deg,
+        rgba(255,30,0,0.6) 80deg,
+        rgba(255,120,20,0.4) 120deg,
+        transparent 200deg,
+        rgba(255,50,0,0.4) 300deg,
+        transparent 360deg
+      );
+      filter:blur(4px);
+      animation:energy-spin 4s linear infinite;
+    }
+
+    @keyframes energy-spin {
+      to { transform:rotate(360deg); }
     }
 
     .profile-image {
-      position:relative; z-index:1;
+      position:relative; z-index:2;
       width:130px; height:130px;
       object-fit:cover; border-radius:50%;
       border:3px solid #080000;
       display:block;
     }
 
-    /* ── NAME ── */
     h1 {
-      font-size:clamp(1.5rem, 5.5vw, 2.1rem);
+      font-size:clamp(1.6rem, 5.5vw, 2.2rem);
       font-weight:900;
-      letter-spacing:0.05em;
+      letter-spacing:0.06em;
       text-transform:uppercase;
-      background:linear-gradient(135deg, #ffffff 10%, #ffaaaa 55%, #ff2222 100%);
+      background:linear-gradient(135deg, #ffffff 0%, #ffdddd 30%, #ff6644 65%, #ff1100 100%);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
       background-clip:text;
       margin-bottom:8px; line-height:1.1;
+      text-shadow:none;
+      filter:drop-shadow(0 0 18px rgba(255,50,0,0.45)) drop-shadow(0 2px 4px rgba(0,0,0,0.7));
+      animation:name-in 0.6s ease 0.45s both;
+    }
+
+    @keyframes name-in {
+      from { opacity:0; transform:translateY(6px); }
+      to { opacity:1; transform:translateY(0); }
     }
 
     .description {
@@ -113,7 +186,6 @@
       font-size:0.88rem; letter-spacing:0.06em; text-transform:uppercase;
     }
 
-    /* ── LINKS ── */
     .links { display:flex; flex-direction:column; gap:13px; }
 
     .link {
@@ -122,16 +194,40 @@
       border-radius:18px;
       font-size:1rem; font-weight:700; letter-spacing:0.025em;
       position:relative; overflow:hidden;
-      display:flex; align-items:center; justify-content:center; gap:12px;
-      transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1),
-                  box-shadow 0.22s ease,
-                  filter 0.22s ease;
-      /* glass base */
+      display:flex; align-items:center; gap:12px;
+      transition:
+        transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        filter 0.25s ease;
       backdrop-filter:blur(12px) saturate(140%);
       -webkit-backdrop-filter:blur(12px) saturate(140%);
+      opacity:0;
     }
 
-    /* top shine bead */
+    .link:nth-child(1) { animation:btn-in 0.5s cubic-bezier(0.22,1,0.36,1) 0.55s both; }
+    .link:nth-child(2) { animation:btn-in 0.5s cubic-bezier(0.22,1,0.36,1) 0.68s both; }
+    .link:nth-child(3) { animation:btn-in 0.5s cubic-bezier(0.22,1,0.36,1) 0.81s both; }
+
+    @keyframes btn-in {
+      from { opacity:0; transform:translateY(14px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    .link-shine {
+      position:absolute;
+      top:0; left:-120%; width:60%; height:100%;
+      background:linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.18) 50%, transparent 80%);
+      transform:skewX(-18deg);
+      pointer-events:none;
+      transition:left 0s;
+    }
+
+    .link:hover .link-shine {
+      left:160%;
+      transition:left 0.45s ease;
+    }
+
     .link::before {
       content:'';
       position:absolute; top:0; left:0; right:0; height:52%;
@@ -140,7 +236,6 @@
       pointer-events:none;
     }
 
-    /* bottom depth */
     .link::after {
       content:'';
       position:absolute; bottom:0; left:0; right:0; height:40%;
@@ -150,12 +245,27 @@
     }
 
     .link:hover {
-      transform:translateY(-5px) scale(1.025);
-      filter:brightness(1.18);
+      transform:translateY(-3px);
     }
-    .link:active { transform:translateY(-2px) scale(1.01); }
 
-    /* Twitch */
+    .link:active { transform:translateY(-1px); }
+
+    .link-text {
+      flex:1;
+    }
+
+    .link-arrow {
+      font-size:1rem;
+      display:inline-block;
+      transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
+      opacity:0.6;
+    }
+
+    .link:hover .link-arrow {
+      transform:translateX(5px);
+      opacity:1;
+    }
+
     .twitch {
       background:
         linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%),
@@ -163,9 +273,11 @@
       border:1px solid rgba(145,70,255,0.35);
       box-shadow:0 4px 24px rgba(100,30,255,0.22), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
-    .twitch:hover { box-shadow:0 20px 50px rgba(100,30,255,0.4), 0 0 0 1px rgba(255,255,255,0.06) inset; }
+    .twitch:hover {
+      box-shadow:0 14px 40px rgba(100,30,255,0.45), 0 0 0 1px rgba(255,255,255,0.08) inset;
+      border-color:rgba(180,110,255,0.6);
+    }
 
-    /* YouTube */
     .youtube {
       background:
         linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%),
@@ -173,9 +285,11 @@
       border:1px solid rgba(255,50,50,0.38);
       box-shadow:0 4px 24px rgba(220,0,0,0.28), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
-    .youtube:hover { box-shadow:0 20px 50px rgba(255,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06) inset; }
+    .youtube:hover {
+      box-shadow:0 14px 40px rgba(255,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08) inset;
+      border-color:rgba(255,90,90,0.65);
+    }
 
-    /* Instagram */
     .instagram {
       background:
         linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%),
@@ -183,23 +297,25 @@
       border:1px solid rgba(220,80,120,0.32);
       box-shadow:0 4px 24px rgba(180,30,100,0.25), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
-    .instagram:hover { box-shadow:0 20px 50px rgba(200,40,120,0.42), 0 0 0 1px rgba(255,255,255,0.06) inset; }
+    .instagram:hover {
+      box-shadow:0 14px 40px rgba(200,40,120,0.48), 0 0 0 1px rgba(255,255,255,0.08) inset;
+      border-color:rgba(240,100,150,0.6);
+    }
 
-    /* ── SVG ICONS ── */
     .link-icon {
       width:22px; height:22px;
       flex-shrink:0; display:flex; align-items:center; justify-content:center;
+      transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
     }
     .link-icon svg { width:22px; height:22px; fill:#fff; }
+    .link:hover .link-icon { transform:scale(1.15); }
 
-    /* ── FOOTER ── */
     .footer {
       margin-top:30px; font-size:0.7rem;
       color:rgba(255,80,80,0.2);
       letter-spacing:0.1em; text-transform:uppercase;
     }
 
-    /* ── ORBS ── */
     .orb {
       position:fixed; border-radius:50%;
       pointer-events:none; filter:blur(90px); z-index:0;
@@ -222,13 +338,35 @@
     }
 
     @media (max-width:480px) {
-      .container { padding:36px 18px 30px; border-radius:24px; }
+      body { padding:24px 10px; }
+      .container {
+        padding:36px 20px 30px;
+        border-radius:22px;
+        border-left-color:transparent;
+        border-right-color:transparent;
+        max-width:100%;
+      }
       .profile-image { width:110px; height:110px; }
-      .link { padding:15px 16px; font-size:0.92rem; }
+      .link {
+        padding:18px 18px;
+        font-size:0.95rem;
+        min-height:64px;
+      }
+      .links { gap:14px; }
+      h1 { margin-bottom:10px; }
+      .description { margin-bottom:28px; }
+    }
+
+    @media (max-width:360px) {
+      .container { border-radius:16px; }
     }
 
     @media (prefers-reduced-motion:reduce) {
-      .ring-spin, .ring-blur, .orb { animation:none; }
+      .energy-ring::before,
+      .energy-ring::after,
+      .profile-glow,
+      .orb { animation:none; }
+      .container, body, h1, .link, .profile-wrap { animation:none; opacity:1; transform:none; }
     }
   </style>
 </head>
@@ -242,8 +380,8 @@
 <main class="container">
 
   <div class="profile-wrap">
-    <div class="ring-blur"></div>
-    <div class="ring-spin"></div>
+    <div class="profile-glow"></div>
+    <div class="energy-ring"></div>
     <img src="favicon.jpg" alt="Dominated By Carl" class="profile-image">
   </div>
 
@@ -260,7 +398,9 @@
           <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
         </svg>
       </span>
-      Watch on Twitch
+      <span class="link-text">Watch on Twitch</span>
+      <div class="link-shine"></div>
+      <span class="link-arrow">›</span>
     </a>
 
     <a class="link youtube"
@@ -271,7 +411,9 @@
           <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
         </svg>
       </span>
-      Subscribe on YouTube
+      <span class="link-text">Subscribe on YouTube</span>
+      <div class="link-shine"></div>
+      <span class="link-arrow">›</span>
     </a>
 
     <a class="link instagram"
@@ -282,7 +424,9 @@
           <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
         </svg>
       </span>
-      Follow on Instagram
+      <span class="link-text">Follow on Instagram</span>
+      <div class="link-shine"></div>
+      <span class="link-arrow">›</span>
     </a>
 
   </div>
@@ -295,63 +439,105 @@
   const canvas = document.getElementById('ember-canvas');
   const ctx = canvas.getContext('2d');
   let W, H, embers = [];
-  const COUNT = 100;
+  const isMobile = () => window.innerWidth < 480;
+  const COUNT = () => isMobile() ? 38 : 55;
 
-  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
   resize();
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', () => { resize(); rebuildEmbers(); });
 
   function rand(a, b) { return a + Math.random() * (b - a); }
+
+  function spawnX() {
+    const r = Math.random();
+    if (r < 0.25) return rand(0, W * 0.18);
+    if (r < 0.5) return rand(W * 0.82, W);
+    return rand(W * 0.1, W * 0.9);
+  }
 
   class Ember {
     constructor(fromBottom) { this.reset(fromBottom); }
     reset(fromBottom) {
-      this.x = rand(0, W);
-      this.y = fromBottom ? H + rand(10, 60) : rand(-60, H);
-      this.vx = rand(-0.55, 0.55);
-      this.vy = rand(-2.4, -0.7);
-      this.size = rand(1.2, 3.6);
-      this.alpha = rand(0.45, 1);
-      this.decay = rand(0.003, 0.008);
+      const edgeBias = Math.random() < 0.6;
+      this.x = edgeBias ? (Math.random() < 0.5 ? rand(0, W * 0.2) : rand(W * 0.8, W)) : rand(W * 0.15, W * 0.85);
+      this.y = fromBottom ? H + rand(5, 50) : rand(H * 0.4, H + 60);
+      this.large = Math.random() < 0.08;
+      this.size = this.large ? rand(2.8, 4.5) : rand(0.6, 2.0);
+      this.vx = rand(-0.4, 0.4);
+      this.vy = this.large ? rand(-1.0, -0.4) : rand(-2.0, -0.6);
+      this.alpha = rand(0.4, 0.9);
+      this.decay = this.large ? rand(0.002, 0.005) : rand(0.004, 0.01);
       this.wobble = rand(0, Math.PI * 2);
       this.wobbleSpeed = rand(0.02, 0.055);
-      this.wobbleAmp = rand(0.2, 0.85);
+      this.wobbleAmp = rand(0.1, 0.6);
+      this.trail = Math.random() < 0.28 && !this.large;
+      this.history = [];
       const t = Math.random();
-      if (t < 0.12) { this.r=255; this.g=245; this.b=190; }
-      else if (t < 0.42) { this.r=255; this.g=rand(70,150); this.b=15; }
-      else { this.r=255; this.g=rand(8,55); this.b=0; }
+      if (t < 0.1) { this.r=255; this.g=240; this.b=180; }
+      else if (t < 0.45) { this.r=255; this.g=rand(80,140); this.b=10; }
+      else { this.r=255; this.g=rand(10,55); this.b=0; }
     }
     update() {
+      if (this.trail) {
+        this.history.push({ x: this.x, y: this.y, a: this.alpha });
+        if (this.history.length > 6) this.history.shift();
+      }
       this.wobble += this.wobbleSpeed;
       this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
       this.y += this.vy;
       this.alpha -= this.decay;
-      this.size *= 0.999;
+      this.size *= 0.9985;
     }
     draw() {
+      if (this.trail && this.history.length > 1) {
+        for (let i = 0; i < this.history.length; i++) {
+          const h = this.history[i];
+          const t = i / this.history.length;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, h.a * t * 0.45);
+          ctx.beginPath();
+          ctx.arc(h.x, h.y, this.size * (0.3 + t * 0.5), 0, Math.PI * 2);
+          ctx.fillStyle = `rgb(${this.r},${this.g},${this.b})`;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
       ctx.save();
       ctx.globalAlpha = Math.max(0, this.alpha);
-      const g = ctx.createRadialGradient(this.x,this.y,0, this.x,this.y,this.size*4);
+      const glowR = this.size * (this.large ? 5 : 3.5);
+      const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowR);
       g.addColorStop(0, `rgba(${this.r},${this.g},${this.b},1)`);
-      g.addColorStop(0.35, `rgba(${this.r},${Math.max(0,this.g-50)},0,0.45)`);
-      g.addColorStop(1, `rgba(160,0,0,0)`);
+      g.addColorStop(0.3, `rgba(${this.r},${Math.max(0,this.g-40)},0,0.35)`);
+      g.addColorStop(1, `rgba(150,0,0,0)`);
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size*4, 0, Math.PI*2);
-      ctx.fillStyle = g; ctx.fill();
+      ctx.arc(this.x, this.y, glowR, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-      ctx.fillStyle = `rgb(${this.r},${this.g},${this.b})`; ctx.fill();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgb(${this.r},${this.g},${this.b})`;
+      ctx.fill();
       ctx.restore();
     }
   }
 
-  for (let i = 0; i < COUNT; i++) embers.push(new Ember(false));
+  function rebuildEmbers() {
+    const c = COUNT();
+    while (embers.length > c) embers.pop();
+    while (embers.length < c) embers.push(new Ember(false));
+  }
+
+  rebuildEmbers();
 
   function animate() {
     ctx.clearRect(0, 0, W, H);
     for (const e of embers) {
-      e.update(); e.draw();
-      if (e.alpha <= 0 || e.y < -40 || e.x < -40 || e.x > W+40) e.reset(true);
+      e.update();
+      e.draw();
+      if (e.alpha <= 0 || e.y < -60 || e.x < -60 || e.x > W + 60) e.reset(true);
     }
     requestAnimationFrame(animate);
   }
