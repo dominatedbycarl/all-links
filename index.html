@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dominated By Carl | Official Links</title>
+
+    <!-- Browser Tab Icon / Favicon -->
+    <link rel="icon" type="image/jpeg" href="channels4_profile.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="channels4_profile.jpg">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #050505;
+            color: white;
+            overflow-x: hidden;
+            padding: 30px 15px;
+        }
+
+        /* Red glowing background */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: #ff0000;
+            filter: blur(200px);
+            opacity: 0.12;
+            top: -300px;
+            left: -250px;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: #ff0000;
+            filter: blur(200px);
+            opacity: 0.10;
+            bottom: -300px;
+            right: -250px;
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            padding: 40px 25px;
+
+            background: rgba(15, 15, 15, 0.95);
+
+            border: 1px solid rgba(255, 0, 0, 0.4);
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 0 20px rgba(255, 0, 0, 0.15),
+                0 20px 80px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Profile Image */
+        .profile-image {
+
+            width: 160px;
+            height: 160px;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            border: 2px solid #ff1a1a;
+
+            box-shadow:
+                0 0 20px rgba(255, 0, 0, 0.5),
+                0 0 50px rgba(255, 0, 0, 0.2);
+
+            margin-bottom: 20px;
+
+            transition: 0.3s;
+
+        }
+
+        .profile-image:hover {
+
+            transform: scale(1.05);
+
+            box-shadow:
+                0 0 30px rgba(255, 0, 0, 0.8),
+                0 0 80px rgba(255, 0, 0, 0.3);
+
+        }
+
+        h1 {
+
+            font-size: 2.2rem;
+
+            margin-bottom: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+
+        }
+
+        .description {
+
+            color: #aaa;
+
+            margin-bottom: 30px;
+
+            font-size: 1rem;
+
+        }
+
+        .links {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+        }
+
+        .link {
+
+            text-decoration: none;
+
+            color: white;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            font-size: 1.1rem;
+
+            font-weight: bold;
+
+            transition: 0.25s;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+        }
+
+        .link:hover {
+
+            transform: translateY(-4px) scale(1.02);
+
+            filter: brightness(1.2);
+
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+
+        }
+
+        /* Twitch */
+
+        .twitch {
+
+            background: linear-gradient(
+                90deg,
+                #3c1d63,
+                #9146ff
+            );
+
+        }
+
+        /* YouTube */
+
+        .youtube {
+
+            background: linear-gradient(
+                90deg,
+                #8f0000,
+                #ff0000
+            );
+
+        }
+
+        /* Instagram */
+
+        .instagram {
+
+            background: linear-gradient(
+                90deg,
+                #833ab4,
+                #fd1d1d,
+                #fcb045
+            );
+
+        }
+
+        .footer {
+
+            margin-top: 30px;
+
+            font-size: 0.8rem;
+
+            color: #666;
+
+        }
+
+        @media (max-width: 500px) {
+
+            .container {
+
+                padding: 30px 18px;
+
+            }
+
+            h1 {
+
+                font-size: 1.7rem;
+
+            }
+
+            .profile-image {
+
+                width: 130px;
+                height: 130px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- YOUR PROFILE IMAGE -->
+
+        <img
+            src="channels4_profile.jpg"
+            alt="Dominated By Carl"
+            class="profile-image"
+        >
+
+        <h1>Dominated By Carl</h1>
+
+        <p class="description">
+            Follow Dominated By Carl on all platforms!
+        </p>
+
+
+        <div class="links">
+
+
+            <!-- TWITCH -->
+
+            <a
+                class="link twitch"
+                href="https://www.twitch.tv/dominatedbycarl"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                🎮 Watch on Twitch
+
+            </a>
+
+
+            <!-- YOUTUBE -->
+
+            <a
+                class="link youtube"
+                href="https://youtube.com/@dominatedbycarl?si=-bWidBZ9_rZZBBC2"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                ▶ Subscribe on YouTube
+
+            </a>
+
+
+            <!-- INSTAGRAM -->
+
+            <a
+                class="link instagram"
+                href="https://www.instagram.com/dominatedbycarl?igsi=Njh4a2RlZm94Zm85"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                📸 Follow on Instagram
+
+            </a>
+
+
+        </div>
+
+
+        <div class="footer">
+
+            © 2026 Dominated By Carl
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
