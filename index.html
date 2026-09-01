@@ -361,7 +361,6 @@
       .container { border-radius:16px; }
     }
 
-    /* ── Card tilt wrapper ── */
     #card-tilt {
       transform-style:preserve-3d;
       will-change:transform;
@@ -369,7 +368,6 @@
       width:100%; max-width:460px;
     }
 
-    /* ── Card breathe (inner) ── */
     @keyframes card-breathe {
       0%,100% { transform:scale(1.000); }
       50%      { transform:scale(1.004); }
@@ -379,7 +377,6 @@
                 card-breathe 7s ease-in-out 1s infinite;
     }
 
-    /* ── Vignette pulse ── */
     #vignette {
       position:fixed; inset:0; z-index:2; pointer-events:none;
       background:radial-gradient(ellipse 100% 100% at 50% 50%,
@@ -391,7 +388,6 @@
       50%      { opacity:1.0; }
     }
 
-    /* ── Name flicker ── */
     @keyframes name-glitch {
       0%   { opacity:1;    clip-path:none; }
       2%   { opacity:0.05; clip-path:inset(40% 0 40% 0); }
@@ -404,7 +400,6 @@
       animation:name-glitch 0.18s steps(1) forwards;
     }
 
-    /* ── Blood drip ── */
     #blood-drip {
       position:absolute;
       top:0; right:18px;
@@ -431,9 +426,7 @@
       100% { height:185px; opacity:0; }
     }
 
-    /* ── 3D tilt — handled via JS inline transform ── */
 
-    /* ── Magnetic buttons — handled via JS ── */
     .link { transition:
       transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
       box-shadow 0.25s ease,
@@ -517,14 +510,12 @@
   <div class="footer">© 2026 Dominated By Carl</div>
 
 </main>
-</div><!-- #card-tilt -->
+</div>
 
 <script>
-  // ─── Shared mouse state ───────────────────────────────────────────
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
-  // ─── Ember canvas ─────────────────────────────────────────────────
   const canvas = document.getElementById('ember-canvas');
   const ctx = canvas.getContext('2d');
   let W, H, embers = [];
@@ -569,7 +560,6 @@
       }
       this.wobble += this.wobbleSpeed;
 
-      // ── Cursor repulsion: embers scatter away from mouse ──
       const dx = this.x - mouseX, dy = this.y - mouseY;
       const dist = Math.sqrt(dx * dx + dy * dy);
       const influence = 110;
@@ -635,7 +625,6 @@
   }
   animate();
 
-  // ─── 3D card tilt ─────────────────────────────────────────────────
   const cardTilt = document.getElementById('card-tilt');
   let tiltX = 0, tiltY = 0;
   let targetTiltX = 0, targetTiltY = 0;
@@ -666,7 +655,6 @@
 
   applyTilt();
 
-  // ─── Magnetic buttons ─────────────────────────────────────────────
   document.querySelectorAll('.link').forEach(btn => {
     const RADIUS = 90, STRENGTH = 0.38;
     let bx = 0, by = 0, active = false;
@@ -699,7 +687,6 @@
     });
   });
 
-  // ─── Name flicker (rare, every 20–30s) ────────────────────────────
   const h1 = document.querySelector('h1');
   function scheduleFlicker() {
     const delay = rand(20000, 30000);
@@ -713,14 +700,12 @@
   }
   scheduleFlicker();
 
-  // ─── Blood drip ───────────────────────────────────────────────────
   const drip = document.getElementById('blood-drip');
 
   function runDrip() {
     drip.style.animation = 'none';
     drip.style.opacity = '0';
     drip.style.height = '0';
-    // Force reflow
     void drip.offsetWidth;
     drip.style.animation = 'drip-grow 3.8s cubic-bezier(0.4,0,0.6,1) forwards';
     drip.addEventListener('animationend', () => {
@@ -730,7 +715,6 @@
   }
 
   function scheduleDrip() {
-    // On small screens: every 18–28s. Easter egg on desktop: every 45–90s
     const delay = isMobile() ? rand(18000, 28000) : rand(45000, 90000);
     setTimeout(runDrip, delay);
   }
