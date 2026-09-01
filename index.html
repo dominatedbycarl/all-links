@@ -195,6 +195,8 @@
       font-size:1rem; font-weight:700; letter-spacing:0.025em;
       position:relative; overflow:hidden;
       display:flex; align-items:center; gap:12px;
+      --magnet-x:0px; --magnet-y:0px; --lift-y:0px;
+      transform:translate(var(--magnet-x), calc(var(--magnet-y) + var(--lift-y)));
       transition:
         transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
         box-shadow 0.25s ease,
@@ -246,10 +248,10 @@
     }
 
     .link:hover {
-      transform:translateY(-3px);
+      --lift-y:-3px;
     }
 
-    .link:active { transform:translateY(-1px); }
+    .link:active { --lift-y:-1px; }
 
     .link-text {
       flex:1;
@@ -693,43 +695,38 @@
   applyTilt();
 
   // ─── Magnetic buttons ─────────────────────────────────────────────
-  // Note: previously this loop wrote an inline `transform` on every single
-  // animation frame — including frames where the offset was (0,0). That
-  // inline style has higher priority than CSS, so it silently cancelled
-  // the button's entrance slide-in animation and the CSS hover/active
-  // lift the whole time. Now we only set an inline transform while the
-  // magnet pull or a hover/press lift is actually non-zero, and clear it
-  // otherwise so CSS (entrance animation, :hover, :active) can do its job.
+  // Hover/active lift is handled entirely by CSS (:hover / :active below) —
+  // JS never touches it. JS only owns the horizontal magnet pull, and it
+  // caches each button's rect *once* (updated on resize/scroll, not every
+  // mousemove) so that the pull itself never causes the button to drift
+  // out from under the cursor and re-trigger its own hover state — that
+  // feedback loop was what caused the flicker and swallowed clicks.
   document.querySelectorAll('.link').forEach(btn => {
     const RADIUS = 90, STRENGTH = 0.38;
     let bx = 0, by = 0, active = false;
-    let hovering = false, pressed = false;
+    let rect = btn.getBoundingClientRect();
 
-    btn.addEventListener('mouseenter', () => { hovering = true; });
-    btn.addEventListener('mouseleave', () => { hovering = false; });
-    btn.addEventListener('mousedown', () => { pressed = true; });
-    btn.addEventListener('mouseup', () => { pressed = false; });
-    btn.addEventListener('touchstart', () => { pressed = true; }, { passive: true });
-    btn.addEventListener('touchend', () => { pressed = false; });
+    function refreshRect() { rect = btn.getBoundingClientRect(); }
+    window.addEventListener('resize', refreshRect);
+    window.addEventListener('scroll', refreshRect, { passive: true });
 
     function magnetLoop() {
       if (!active) {
         bx += (0 - bx) * 0.12;
         by += (0 - by) * 0.12;
       }
-      const lift = pressed ? -1 : (hovering ? -3 : 0);
-
-      if (Math.abs(bx) > 0.05 || Math.abs(by) > 0.05 || lift !== 0) {
-        btn.style.transform = `translate(${bx}px, ${by + lift}px)`;
-      } else if (btn.style.transform) {
-        btn.style.transform = '';
+      if (Math.abs(bx) > 0.05 || Math.abs(by) > 0.05) {
+        btn.style.setProperty('--magnet-x', `${bx}px`);
+        btn.style.setProperty('--magnet-y', `${by}px`);
+      } else {
+        btn.style.removeProperty('--magnet-x');
+        btn.style.removeProperty('--magnet-y');
       }
       requestAnimationFrame(magnetLoop);
     }
     magnetLoop();
 
     window.addEventListener('mousemove', e => {
-      const rect = btn.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
       const dx = e.clientX - cx;
