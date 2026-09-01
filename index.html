@@ -7,434 +7,355 @@
   <link rel="icon" type="image/jpeg" href="favicon.jpg">
   <link rel="shortcut icon" type="image/jpeg" href="favicon.jpg">
   <style>
-    *, *::before, *::after {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-    :root {
-      --red: #ff1a1a;
-      --red-dim: #cc0000;
-      --red-glow: rgba(255,26,26,0.6);
-      --red-subtle: rgba(255,26,26,0.12);
-      --glass-bg: rgba(10,0,0,0.55);
-      --glass-border: rgba(255,60,60,0.25);
-      --glass-shine: rgba(255,255,255,0.06);
-    }
-
-    html, body {
-      min-height: 100%;
-      width: 100%;
-    }
+    html, body { min-height:100%; width:100%; }
 
     body {
-      min-height: 100svh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #070000;
-      color: #fff;
-      overflow-x: hidden;
-      padding: 40px 16px;
+      min-height:100svh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+      background:#060000;
+      color:#fff;
+      overflow-x:hidden;
+      padding:40px 16px;
     }
 
-    /* Deep space background */
     .bg-layer {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
+      position:fixed; inset:0; z-index:0;
       background:
-        radial-gradient(ellipse 80% 60% at 15% -10%, rgba(180,0,0,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 50% at 90% 110%, rgba(140,0,0,0.14) 0%, transparent 70%),
-        radial-gradient(ellipse 100% 100% at 50% 50%, rgba(30,0,0,0.8) 0%, #070000 100%);
+        radial-gradient(ellipse 90% 55% at 10% -5%, rgba(200,0,0,0.2) 0%, transparent 65%),
+        radial-gradient(ellipse 70% 50% at 92% 105%, rgba(150,0,0,0.16) 0%, transparent 65%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, rgba(25,0,0,0.85) 0%, #060000 100%);
     }
 
-    /* Ember canvas */
     #ember-canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
+      position:fixed; inset:0; z-index:1; pointer-events:none;
     }
 
-    /* Main card */
+    /* ── CARD ── */
     .container {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 460px;
-      text-align: center;
-      padding: 44px 28px 36px;
-
-      /* Layered glass */
+      position:relative; z-index:10;
+      width:100%; max-width:460px;
+      text-align:center;
+      padding:48px 30px 38px;
       background:
-        linear-gradient(145deg, rgba(255,255,255,0.055) 0%, transparent 50%),
-        var(--glass-bg);
-
-      border: 1px solid var(--glass-border);
-      border-radius: 28px;
-
-      backdrop-filter: blur(28px) saturate(160%);
-      -webkit-backdrop-filter: blur(28px) saturate(160%);
-
+        linear-gradient(150deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.01) 45%, transparent 100%),
+        rgba(8,0,0,0.6);
+      border:1px solid rgba(255,80,80,0.22);
+      border-radius:30px;
+      backdrop-filter:blur(32px) saturate(170%) brightness(1.05);
+      -webkit-backdrop-filter:blur(32px) saturate(170%) brightness(1.05);
       box-shadow:
-        0 0 0 1px rgba(255,255,255,0.04) inset,
-        0 1px 0 rgba(255,255,255,0.10) inset,
-        0 0 40px rgba(255,20,20,0.18),
-        0 0 100px rgba(200,0,0,0.08),
-        0 40px 80px rgba(0,0,0,0.8);
+        0 0 0 1px rgba(255,255,255,0.05) inset,
+        0 1.5px 0 0 rgba(255,200,200,0.13) inset,
+        0 -1px 0 0 rgba(0,0,0,0.6) inset,
+        0 0 50px rgba(255,10,10,0.14),
+        0 0 120px rgba(180,0,0,0.07),
+        0 50px 90px rgba(0,0,0,0.85);
     }
 
-    /* Subtle shimmer line at top of card */
     .container::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 16px; right: 16px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,150,150,0.4), transparent);
-      border-radius: 100%;
+      content:'';
+      position:absolute; top:0; left:20px; right:20px; height:1px;
+      background:linear-gradient(90deg, transparent, rgba(255,160,160,0.45), transparent);
+      border-radius:100%;
     }
 
-    /* Profile image */
+    /* ── PROFILE ── */
     .profile-wrap {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 22px;
+      position:relative; display:inline-block; margin-bottom:24px;
     }
 
-    .profile-wrap::before {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 0deg,
-        #ff0000, #ff4444, #ff0000, #cc0000, #ff0000
-      );
-      animation: spin 4s linear infinite;
-      z-index: 0;
+    .ring-spin {
+      position:absolute; inset:-5px; border-radius:50%; z-index:0;
+      background:conic-gradient(from 0deg, #ff0000, #ff5500, #ffcc00, #ff0000, #cc0000, #ff0000);
+      animation:spin 5s linear infinite;
     }
 
-    .profile-wrap::after {
-      content: '';
-      position: absolute;
-      inset: -12px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,0,0,0.3) 0%, transparent 70%);
-      animation: pulse-ring 2.5s ease-in-out infinite;
-      z-index: 0;
+    .ring-blur {
+      position:absolute; inset:-14px; border-radius:50%; z-index:0;
+      background:radial-gradient(circle, rgba(255,30,30,0.35) 0%, transparent 70%);
+      animation:pulse-ring 3s ease-in-out infinite;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
+    @keyframes spin { to { transform:rotate(360deg); } }
     @keyframes pulse-ring {
-      0%, 100% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.15); opacity: 1; }
+      0%,100% { transform:scale(1); opacity:0.7; }
+      50% { transform:scale(1.18); opacity:1; }
     }
 
     .profile-image {
-      position: relative;
-      z-index: 1;
-      width: 130px;
-      height: 130px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 3px solid #070000;
-      display: block;
+      position:relative; z-index:1;
+      width:130px; height:130px;
+      object-fit:cover; border-radius:50%;
+      border:3px solid #080000;
+      display:block;
     }
 
-    /* Name */
+    /* ── NAME ── */
     h1 {
-      font-size: clamp(1.5rem, 5vw, 2rem);
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #fff 20%, #ff9999 60%, #ff3333 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 8px;
-      line-height: 1.15;
+      font-size:clamp(1.5rem, 5.5vw, 2.1rem);
+      font-weight:900;
+      letter-spacing:0.05em;
+      text-transform:uppercase;
+      background:linear-gradient(135deg, #ffffff 10%, #ffaaaa 55%, #ff2222 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+      margin-bottom:8px; line-height:1.1;
     }
 
     .description {
-      color: rgba(255,180,180,0.6);
-      margin-bottom: 32px;
-      font-size: 0.9rem;
-      letter-spacing: 0.02em;
+      color:rgba(255,160,160,0.5);
+      margin-bottom:34px;
+      font-size:0.88rem; letter-spacing:0.06em; text-transform:uppercase;
     }
 
-    /* Links */
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 13px;
-    }
+    /* ── LINKS ── */
+    .links { display:flex; flex-direction:column; gap:13px; }
 
     .link {
-      text-decoration: none;
-      color: #fff;
-      padding: 17px 22px;
-      border-radius: 16px;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, filter 0.22s ease;
-      border: 1px solid rgba(255,255,255,0.1);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      text-decoration:none; color:#fff;
+      padding:16px 22px;
+      border-radius:18px;
+      font-size:1rem; font-weight:700; letter-spacing:0.025em;
+      position:relative; overflow:hidden;
+      display:flex; align-items:center; justify-content:center; gap:12px;
+      transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1),
+                  box-shadow 0.22s ease,
+                  filter 0.22s ease;
+      /* glass base */
+      backdrop-filter:blur(12px) saturate(140%);
+      -webkit-backdrop-filter:blur(12px) saturate(140%);
     }
 
-    /* Glass shine on links */
+    /* top shine bead */
     .link::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 50%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.12), transparent);
-      border-radius: 16px 16px 0 0;
-      pointer-events: none;
+      content:'';
+      position:absolute; top:0; left:0; right:0; height:52%;
+      background:linear-gradient(180deg, rgba(255,255,255,0.13) 0%, transparent 100%);
+      border-radius:18px 18px 0 0;
+      pointer-events:none;
+    }
+
+    /* bottom depth */
+    .link::after {
+      content:'';
+      position:absolute; bottom:0; left:0; right:0; height:40%;
+      background:linear-gradient(0deg, rgba(0,0,0,0.22) 0%, transparent 100%);
+      border-radius:0 0 18px 18px;
+      pointer-events:none;
     }
 
     .link:hover {
-      transform: translateY(-4px) scale(1.025);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 30px var(--link-glow, rgba(255,255,255,0.1));
-      filter: brightness(1.15);
+      transform:translateY(-5px) scale(1.025);
+      filter:brightness(1.18);
     }
-
-    .link:active {
-      transform: translateY(-1px) scale(1.01);
-    }
+    .link:active { transform:translateY(-2px) scale(1.01); }
 
     /* Twitch */
     .twitch {
-      --link-glow: rgba(145,70,255,0.5);
-      background: linear-gradient(135deg,
-        rgba(60,29,99,0.9) 0%,
-        rgba(145,70,255,0.85) 100%);
-      border-color: rgba(145,70,255,0.4);
-      box-shadow: 0 4px 20px rgba(145,70,255,0.2);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(55,25,90,0.92), rgba(130,60,255,0.88));
+      border:1px solid rgba(145,70,255,0.35);
+      box-shadow:0 4px 24px rgba(100,30,255,0.22), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
+    .twitch:hover { box-shadow:0 20px 50px rgba(100,30,255,0.4), 0 0 0 1px rgba(255,255,255,0.06) inset; }
 
     /* YouTube */
     .youtube {
-      --link-glow: rgba(255,0,0,0.6);
-      background: linear-gradient(135deg,
-        rgba(100,0,0,0.9) 0%,
-        rgba(255,0,0,0.85) 100%);
-      border-color: rgba(255,60,60,0.4);
-      box-shadow: 0 4px 20px rgba(255,0,0,0.25);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(90,0,0,0.92), rgba(220,0,0,0.9));
+      border:1px solid rgba(255,50,50,0.38);
+      box-shadow:0 4px 24px rgba(220,0,0,0.28), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
+    .youtube:hover { box-shadow:0 20px 50px rgba(255,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06) inset; }
 
     /* Instagram */
     .instagram {
-      --link-glow: rgba(253,29,29,0.4);
-      background: linear-gradient(135deg,
-        rgba(100,30,140,0.9) 0%,
-        rgba(200,30,30,0.85) 50%,
-        rgba(200,140,20,0.85) 100%);
-      border-color: rgba(253,100,100,0.3);
-      box-shadow: 0 4px 20px rgba(180,50,100,0.25);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(80,20,120,0.92), rgba(200,30,90,0.88), rgba(240,120,20,0.85));
+      border:1px solid rgba(220,80,120,0.32);
+      box-shadow:0 4px 24px rgba(180,30,100,0.25), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
+    .instagram:hover { box-shadow:0 20px 50px rgba(200,40,120,0.42), 0 0 0 1px rgba(255,255,255,0.06) inset; }
 
+    /* ── SVG ICONS ── */
     .link-icon {
-      font-size: 1.25rem;
-      flex-shrink: 0;
+      width:22px; height:22px;
+      flex-shrink:0; display:flex; align-items:center; justify-content:center;
     }
+    .link-icon svg { width:22px; height:22px; fill:#fff; }
 
-    /* Footer */
+    /* ── FOOTER ── */
     .footer {
-      margin-top: 28px;
-      font-size: 0.72rem;
-      color: rgba(255,100,100,0.25);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      margin-top:30px; font-size:0.7rem;
+      color:rgba(255,80,80,0.2);
+      letter-spacing:0.1em; text-transform:uppercase;
     }
 
-    /* Floating orbs behind card */
+    /* ── ORBS ── */
     .orb {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      filter: blur(80px);
-      z-index: 0;
+      position:fixed; border-radius:50%;
+      pointer-events:none; filter:blur(90px); z-index:0;
     }
     .orb-1 {
-      width: 500px; height: 500px;
-      background: rgba(180,0,0,0.15);
-      top: -200px; left: -200px;
-      animation: orb-drift 12s ease-in-out infinite alternate;
+      width:520px; height:520px;
+      background:rgba(190,0,0,0.13);
+      top:-220px; left:-200px;
+      animation:orb-drift 13s ease-in-out infinite alternate;
     }
     .orb-2 {
-      width: 400px; height: 400px;
-      background: rgba(120,0,0,0.12);
-      bottom: -150px; right: -150px;
-      animation: orb-drift 15s ease-in-out infinite alternate-reverse;
+      width:440px; height:440px;
+      background:rgba(110,0,0,0.11);
+      bottom:-180px; right:-160px;
+      animation:orb-drift 16s ease-in-out infinite alternate-reverse;
     }
-
     @keyframes orb-drift {
-      0% { transform: translate(0,0); }
-      100% { transform: translate(40px, 40px); }
+      0% { transform:translate(0,0); }
+      100% { transform:translate(45px,45px); }
     }
 
-    /* Mobile refinements */
-    @media (max-width: 480px) {
-      .container {
-        padding: 36px 20px 30px;
-        border-radius: 24px;
-      }
-      .profile-image { width: 110px; height: 110px; }
-      .link { padding: 15px 18px; font-size: 0.95rem; }
+    @media (max-width:480px) {
+      .container { padding:36px 18px 30px; border-radius:24px; }
+      .profile-image { width:110px; height:110px; }
+      .link { padding:15px 16px; font-size:0.92rem; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .profile-wrap::before,
-      .profile-wrap::after,
-      .orb { animation: none; }
+    @media (prefers-reduced-motion:reduce) {
+      .ring-spin, .ring-blur, .orb { animation:none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-layer"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <canvas id="ember-canvas"></canvas>
+<div class="bg-layer"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<canvas id="ember-canvas"></canvas>
 
-  <main class="container">
+<main class="container">
 
-    <div class="profile-wrap">
-      <img
-        src="favicon.jpg"
-        alt="Dominated By Carl"
-        class="profile-image"
-      >
-    </div>
+  <div class="profile-wrap">
+    <div class="ring-blur"></div>
+    <div class="ring-spin"></div>
+    <img src="favicon.jpg" alt="Dominated By Carl" class="profile-image">
+  </div>
 
-    <h1>Dominated By Carl</h1>
+  <h1>Dominated By Carl</h1>
+  <p class="description">Follow on all platforms</p>
 
-    <p class="description">Follow on all platforms</p>
+  <div class="links">
 
-    <div class="links">
+    <a class="link twitch"
+      href="https://www.twitch.tv/dominatedbycarl"
+      target="_blank" rel="noopener noreferrer">
+      <span class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
+        </svg>
+      </span>
+      Watch on Twitch
+    </a>
 
-      <a class="link twitch"
-        href="https://www.twitch.tv/dominatedbycarl"
-        target="_blank" rel="noopener noreferrer">
-        <span class="link-icon">🎮</span>
-        Watch on Twitch
-      </a>
+    <a class="link youtube"
+      href="https://youtube.com/@dominatedbycarl?si=-bWidBZ9_rZZBBC2"
+      target="_blank" rel="noopener noreferrer">
+      <span class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </span>
+      Subscribe on YouTube
+    </a>
 
-      <a class="link youtube"
-        href="https://youtube.com/@dominatedbycarl?si=-bWidBZ9_rZZBBC2"
-        target="_blank" rel="noopener noreferrer">
-        <span class="link-icon">▶</span>
-        Subscribe on YouTube
-      </a>
+    <a class="link instagram"
+      href="https://www.instagram.com/dominatedbycarl?igsi=Njh4a2RlZm94Zm85"
+      target="_blank" rel="noopener noreferrer">
+      <span class="link-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+        </svg>
+      </span>
+      Follow on Instagram
+    </a>
 
-      <a class="link instagram"
-        href="https://www.instagram.com/dominatedbycarl?igsi=Njh4a2RlZm94Zm85"
-        target="_blank" rel="noopener noreferrer">
-        <span class="link-icon">📸</span>
-        Follow on Instagram
-      </a>
+  </div>
 
-    </div>
+  <div class="footer">© 2026 Dominated By Carl</div>
 
-    <div class="footer">© 2026 Dominated By Carl</div>
+</main>
 
-  </main>
+<script>
+  const canvas = document.getElementById('ember-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, embers = [];
+  const COUNT = 100;
 
-  <script>
-    const canvas = document.getElementById('ember-canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H, embers = [];
-    const EMBER_COUNT = 90;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
 
-    function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  class Ember {
+    constructor(fromBottom) { this.reset(fromBottom); }
+    reset(fromBottom) {
+      this.x = rand(0, W);
+      this.y = fromBottom ? H + rand(10, 60) : rand(-60, H);
+      this.vx = rand(-0.55, 0.55);
+      this.vy = rand(-2.4, -0.7);
+      this.size = rand(1.2, 3.6);
+      this.alpha = rand(0.45, 1);
+      this.decay = rand(0.003, 0.008);
+      this.wobble = rand(0, Math.PI * 2);
+      this.wobbleSpeed = rand(0.02, 0.055);
+      this.wobbleAmp = rand(0.2, 0.85);
+      const t = Math.random();
+      if (t < 0.12) { this.r=255; this.g=245; this.b=190; }
+      else if (t < 0.42) { this.r=255; this.g=rand(70,150); this.b=15; }
+      else { this.r=255; this.g=rand(8,55); this.b=0; }
     }
-    resize();
-    window.addEventListener('resize', resize);
-
-    function randomBetween(a, b) { return a + Math.random() * (b - a); }
-
-    class Ember {
-      constructor(fromBottom) {
-        this.reset(fromBottom);
-      }
-      reset(fromBottom) {
-        this.x = randomBetween(0, W);
-        this.y = fromBottom ? H + randomBetween(10, 50) : randomBetween(-50, H);
-        this.vx = randomBetween(-0.6, 0.6);
-        this.vy = randomBetween(-2.5, -0.6);
-        this.size = randomBetween(1.2, 3.5);
-        this.alpha = randomBetween(0.4, 1);
-        this.decay = randomBetween(0.003, 0.009);
-        this.wobble = randomBetween(0, Math.PI * 2);
-        this.wobbleSpeed = randomBetween(0.02, 0.06);
-        this.wobbleAmp = randomBetween(0.2, 0.8);
-        // Color: from bright yellow-white → orange → deep red
-        const t = Math.random();
-        if (t < 0.15) {
-          this.r = 255; this.g = 240; this.b = 180; // near-white hot
-        } else if (t < 0.45) {
-          this.r = 255; this.g = randomBetween(80, 160); this.b = 20; // orange
-        } else {
-          this.r = 255; this.g = randomBetween(10, 60); this.b = 0; // red
-        }
-      }
-      update() {
-        this.wobble += this.wobbleSpeed;
-        this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
-        this.y += this.vy;
-        this.alpha -= this.decay;
-        this.size *= 0.9985;
-      }
-      draw() {
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, this.alpha);
-        // Glow
-        const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 3.5);
-        grd.addColorStop(0, `rgba(${this.r},${this.g},${this.b},1)`);
-        grd.addColorStop(0.4, `rgba(${this.r},${Math.max(0,this.g-40)},0,0.5)`);
-        grd.addColorStop(1, `rgba(180,0,0,0)`);
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = grd;
-        ctx.fill();
-        // Core
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgb(${this.r},${this.g},${this.b})`;
-        ctx.fill();
-        ctx.restore();
-      }
+    update() {
+      this.wobble += this.wobbleSpeed;
+      this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
+      this.y += this.vy;
+      this.alpha -= this.decay;
+      this.size *= 0.999;
     }
-
-    for (let i = 0; i < EMBER_COUNT; i++) {
-      embers.push(new Ember(false));
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, this.alpha);
+      const g = ctx.createRadialGradient(this.x,this.y,0, this.x,this.y,this.size*4);
+      g.addColorStop(0, `rgba(${this.r},${this.g},${this.b},1)`);
+      g.addColorStop(0.35, `rgba(${this.r},${Math.max(0,this.g-50)},0,0.45)`);
+      g.addColorStop(1, `rgba(160,0,0,0)`);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size*4, 0, Math.PI*2);
+      ctx.fillStyle = g; ctx.fill();
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+      ctx.fillStyle = `rgb(${this.r},${this.g},${this.b})`; ctx.fill();
+      ctx.restore();
     }
+  }
 
-    function animate() {
-      ctx.clearRect(0, 0, W, H);
-      for (let e of embers) {
-        e.update();
-        e.draw();
-        if (e.alpha <= 0 || e.y < -30 || e.x < -30 || e.x > W + 30) {
-          e.reset(true);
-        }
-      }
-      requestAnimationFrame(animate);
+  for (let i = 0; i < COUNT; i++) embers.push(new Ember(false));
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    for (const e of embers) {
+      e.update(); e.draw();
+      if (e.alpha <= 0 || e.y < -40 || e.x < -40 || e.x > W+40) e.reset(true);
     }
-    animate();
-  </script>
-
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
 </body>
 </html>
