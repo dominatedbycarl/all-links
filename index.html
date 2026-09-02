@@ -24,9 +24,7 @@
       animation:body-in 0.6s ease forwards;
     }
 
-    @keyframes body-in {
-      to { opacity:1; }
-    }
+    @keyframes body-in { to { opacity:1; } }
 
     .bg-layer {
       position:fixed; inset:0; z-index:0;
@@ -36,9 +34,7 @@
         radial-gradient(ellipse 100% 100% at 50% 50%, rgba(25,0,0,0.85) 0%, #060000 100%);
     }
 
-    #ember-canvas {
-      position:fixed; inset:0; z-index:1; pointer-events:none;
-    }
+    #ember-canvas { position:fixed; inset:0; z-index:1; pointer-events:none; }
 
     .container {
       position:relative;
@@ -59,12 +55,18 @@
         0 0 50px rgba(255,10,10,0.14),
         0 0 120px rgba(180,0,0,0.07),
         0 50px 90px rgba(0,0,0,0.85);
-      animation:card-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+      animation:card-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both,
+                card-breathe 7s ease-in-out 1s infinite;
     }
 
     @keyframes card-in {
       from { transform:translateY(20px); opacity:0; }
       to { transform:translateY(0); opacity:1; }
+    }
+
+    @keyframes card-breathe {
+      0%,100% { transform:scale(1.000); }
+      50%      { transform:scale(1.004); }
     }
 
     .container::before {
@@ -85,10 +87,7 @@
     }
 
     .profile-glow {
-      position:absolute;
-      inset:-28px;
-      border-radius:50%;
-      z-index:0;
+      position:absolute; inset:-28px; border-radius:50%; z-index:0;
       background:radial-gradient(circle, rgba(255,60,0,0.22) 0%, rgba(200,0,0,0.1) 45%, transparent 70%);
       animation:profile-glow-pulse 3.5s ease-in-out infinite;
     }
@@ -99,31 +98,18 @@
     }
 
     .energy-ring {
-      position:absolute;
-      inset:-6px;
-      border-radius:50%;
-      z-index:1;
-      background:transparent;
-      padding:2px;
+      position:absolute; inset:-6px; border-radius:50%; z-index:1;
+      background:transparent; padding:2px;
     }
 
     .energy-ring::before {
-      content:'';
-      position:absolute;
-      inset:0;
-      border-radius:50%;
+      content:''; position:absolute; inset:0; border-radius:50%;
       background:conic-gradient(
         from 0deg,
-        transparent 0deg,
-        rgba(255,80,0,0.9) 40deg,
-        rgba(255,30,0,1) 80deg,
-        rgba(255,120,20,0.95) 120deg,
-        rgba(255,50,0,0.85) 160deg,
-        transparent 200deg,
-        rgba(200,20,0,0.5) 240deg,
-        rgba(255,70,10,0.8) 280deg,
-        rgba(255,40,0,1) 320deg,
-        transparent 360deg
+        transparent 0deg, rgba(255,80,0,0.9) 40deg, rgba(255,30,0,1) 80deg,
+        rgba(255,120,20,0.95) 120deg, rgba(255,50,0,0.85) 160deg,
+        transparent 200deg, rgba(200,20,0,0.5) 240deg,
+        rgba(255,70,10,0.8) 280deg, rgba(255,40,0,1) 320deg, transparent 360deg
       );
       animation:energy-spin 4s linear infinite;
       mask:radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px));
@@ -131,46 +117,31 @@
     }
 
     .energy-ring::after {
-      content:'';
-      position:absolute;
-      inset:-2px;
-      border-radius:50%;
+      content:''; position:absolute; inset:-2px; border-radius:50%;
       background:conic-gradient(
-        from 180deg,
-        transparent 0deg,
-        rgba(255,80,0,0.5) 40deg,
-        rgba(255,30,0,0.6) 80deg,
-        rgba(255,120,20,0.4) 120deg,
-        transparent 200deg,
-        rgba(255,50,0,0.4) 300deg,
-        transparent 360deg
+        from 180deg, transparent 0deg, rgba(255,80,0,0.5) 40deg,
+        rgba(255,30,0,0.6) 80deg, rgba(255,120,20,0.4) 120deg,
+        transparent 200deg, rgba(255,50,0,0.4) 300deg, transparent 360deg
       );
       filter:blur(4px);
       animation:energy-spin 4s linear infinite;
     }
 
-    @keyframes energy-spin {
-      to { transform:rotate(360deg); }
-    }
+    @keyframes energy-spin { to { transform:rotate(360deg); } }
 
     .profile-image {
       position:relative; z-index:2;
       width:130px; height:130px;
       object-fit:cover; border-radius:50%;
-      border:3px solid #080000;
-      display:block;
+      border:3px solid #080000; display:block;
     }
 
     h1 {
       font-size:clamp(1.6rem, 5.5vw, 2.2rem);
-      font-weight:900;
-      letter-spacing:0.06em;
-      text-transform:uppercase;
+      font-weight:900; letter-spacing:0.06em; text-transform:uppercase;
       background:linear-gradient(135deg, #ffffff 0%, #ffdddd 30%, #ff6644 65%, #ff1100 100%);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      background-clip:text;
-      margin-bottom:8px; line-height:1.1;
-      text-shadow:none;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      margin-bottom:8px; line-height:1.1; text-shadow:none;
       filter:drop-shadow(0 0 18px rgba(255,50,0,0.45)) drop-shadow(0 2px 4px rgba(0,0,0,0.7));
       animation:name-in 0.6s ease 0.45s both;
     }
@@ -195,16 +166,12 @@
       font-size:1rem; font-weight:700; letter-spacing:0.025em;
       position:relative; overflow:hidden;
       display:flex; align-items:center; gap:12px;
-      --magnet-x:0px; --magnet-y:0px; --lift-y:0px;
-      transform:translate(var(--magnet-x), calc(var(--magnet-y) + var(--lift-y)));
-      transition:
-        transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
-        box-shadow 0.25s ease,
-        border-color 0.25s ease,
-        filter 0.25s ease;
+      will-change:transform;
+      transition:box-shadow 0.25s ease, border-color 0.25s ease, filter 0.25s ease;
       backdrop-filter:blur(12px) saturate(140%);
       -webkit-backdrop-filter:blur(12px) saturate(140%);
       opacity:0;
+      cursor:pointer;
     }
 
     .link:nth-child(1) { animation:btn-in 0.5s cubic-bezier(0.22,1,0.36,1) 0.55s both; }
@@ -218,56 +185,33 @@
     }
 
     .link-shine {
-      position:absolute;
-      top:0; left:-120%; width:60%; height:100%;
+      position:absolute; top:0; left:-120%; width:60%; height:100%;
       background:linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.18) 50%, transparent 80%);
-      transform:skewX(-18deg);
-      pointer-events:none;
-      transition:left 0s;
+      transform:skewX(-18deg); pointer-events:none; transition:left 0s;
     }
 
-    .link:hover .link-shine {
-      left:160%;
-      transition:left 0.45s ease;
-    }
+    .link.is-hovered .link-shine { left:160%; transition:left 0.45s ease; }
 
     .link::before {
-      content:'';
-      position:absolute; top:0; left:0; right:0; height:52%;
+      content:''; position:absolute; top:0; left:0; right:0; height:52%;
       background:linear-gradient(180deg, rgba(255,255,255,0.13) 0%, transparent 100%);
-      border-radius:18px 18px 0 0;
-      pointer-events:none;
+      border-radius:18px 18px 0 0; pointer-events:none;
     }
 
     .link::after {
-      content:'';
-      position:absolute; bottom:0; left:0; right:0; height:40%;
+      content:''; position:absolute; bottom:0; left:0; right:0; height:40%;
       background:linear-gradient(0deg, rgba(0,0,0,0.22) 0%, transparent 100%);
-      border-radius:0 0 18px 18px;
-      pointer-events:none;
+      border-radius:0 0 18px 18px; pointer-events:none;
     }
 
-    .link:hover {
-      --lift-y:-3px;
-    }
-
-    .link:active { --lift-y:-1px; }
-
-    .link-text {
-      flex:1;
-    }
+    .link-text { flex:1; }
 
     .link-arrow {
-      font-size:1rem;
-      display:inline-block;
-      transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
-      opacity:0.6;
+      font-size:1rem; display:inline-block;
+      transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1); opacity:0.6;
     }
 
-    .link:hover .link-arrow {
-      transform:translateX(5px);
-      opacity:1;
-    }
+    .link.is-hovered .link-arrow { transform:translateX(5px); opacity:1; }
 
     .twitch {
       background:
@@ -276,7 +220,7 @@
       border:1px solid rgba(145,70,255,0.35);
       box-shadow:0 4px 24px rgba(100,30,255,0.22), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
-    .twitch:hover {
+    .twitch.is-hovered {
       box-shadow:0 14px 40px rgba(100,30,255,0.45), 0 0 0 1px rgba(255,255,255,0.08) inset;
       border-color:rgba(180,110,255,0.6);
     }
@@ -288,7 +232,7 @@
       border:1px solid rgba(255,50,50,0.38);
       box-shadow:0 4px 24px rgba(220,0,0,0.28), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
-    .youtube:hover {
+    .youtube.is-hovered {
       box-shadow:0 14px 40px rgba(255,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08) inset;
       border-color:rgba(255,90,90,0.65);
     }
@@ -300,7 +244,7 @@
       border:1px solid rgba(220,80,120,0.32);
       box-shadow:0 4px 24px rgba(180,30,100,0.25), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
-    .instagram:hover {
+    .instagram.is-hovered {
       box-shadow:0 14px 40px rgba(200,40,120,0.48), 0 0 0 1px rgba(255,255,255,0.08) inset;
       border-color:rgba(240,100,150,0.6);
     }
@@ -312,18 +256,18 @@
       border:1px solid rgba(37,244,238,0.32);
       box-shadow:0 4px 24px rgba(254,44,85,0.24), 0 0 0 1px rgba(255,255,255,0.04) inset;
     }
-    .tiktok:hover {
+    .tiktok.is-hovered {
       box-shadow:0 14px 40px rgba(254,44,85,0.45), 0 0 0 1px rgba(255,255,255,0.08) inset;
       border-color:rgba(37,244,238,0.65);
     }
 
     .link-icon {
-      width:22px; height:22px;
-      flex-shrink:0; display:flex; align-items:center; justify-content:center;
+      width:22px; height:22px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
       transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
     }
     .link-icon svg { width:22px; height:22px; fill:#fff; }
-    .link:hover .link-icon { transform:scale(1.15); }
+    .link.is-hovered .link-icon { transform:scale(1.15); }
 
     .footer {
       margin-top:30px; font-size:0.7rem;
@@ -331,21 +275,14 @@
       letter-spacing:0.1em; text-transform:uppercase;
     }
 
-    .orb {
-      position:fixed; border-radius:50%;
-      pointer-events:none; filter:blur(90px); z-index:0;
-    }
+    .orb { position:fixed; border-radius:50%; pointer-events:none; filter:blur(90px); z-index:0; }
     .orb-1 {
-      width:520px; height:520px;
-      background:rgba(190,0,0,0.13);
-      top:-220px; left:-200px;
-      animation:orb-drift 13s ease-in-out infinite alternate;
+      width:520px; height:520px; background:rgba(190,0,0,0.13);
+      top:-220px; left:-200px; animation:orb-drift 13s ease-in-out infinite alternate;
     }
     .orb-2 {
-      width:440px; height:440px;
-      background:rgba(110,0,0,0.11);
-      bottom:-180px; right:-160px;
-      animation:orb-drift 16s ease-in-out infinite alternate-reverse;
+      width:440px; height:440px; background:rgba(110,0,0,0.11);
+      bottom:-180px; right:-160px; animation:orb-drift 16s ease-in-out infinite alternate-reverse;
     }
     @keyframes orb-drift {
       0% { transform:translate(0,0); }
@@ -355,50 +292,24 @@
     @media (max-width:480px) {
       body { padding:24px 10px; }
       #card-tilt { max-width:100%; }
-      .container {
-        padding:36px 20px 30px;
-        border-radius:22px;
-        border-left-color:transparent;
-        border-right-color:transparent;
-      }
+      .container { padding:36px 20px 30px; border-radius:22px; border-left-color:transparent; border-right-color:transparent; }
       .profile-image { width:110px; height:110px; }
-      .link {
-        padding:18px 18px;
-        font-size:0.95rem;
-        min-height:64px;
-      }
+      .link { padding:18px 18px; font-size:0.95rem; min-height:64px; }
       .links { gap:14px; }
       h1 { margin-bottom:10px; }
       .description { margin-bottom:28px; }
     }
 
-    @media (max-width:360px) {
-      .container { border-radius:16px; }
-    }
+    @media (max-width:360px) { .container { border-radius:16px; } }
 
-    /* ── Card tilt wrapper ── */
     #card-tilt {
-      transform-style:preserve-3d;
-      will-change:transform;
-      position:relative; z-index:10;
-      width:100%; max-width:460px;
+      transform-style:preserve-3d; will-change:transform;
+      position:relative; z-index:10; width:100%; max-width:460px;
     }
 
-    /* ── Card breathe (inner) ── */
-    @keyframes card-breathe {
-      0%,100% { transform:scale(1.000); }
-      50%      { transform:scale(1.004); }
-    }
-    .container {
-      animation:card-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both,
-                card-breathe 7s ease-in-out 1s infinite;
-    }
-
-    /* ── Vignette pulse ── */
     #vignette {
       position:fixed; inset:0; z-index:2; pointer-events:none;
-      background:radial-gradient(ellipse 100% 100% at 50% 50%,
-        transparent 40%, rgba(0,0,0,0.72) 100%);
+      background:radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.72) 100%);
       animation:vignette-pulse 4s ease-in-out infinite;
     }
     @keyframes vignette-pulse {
@@ -406,7 +317,6 @@
       50%      { opacity:1.0; }
     }
 
-    /* ── Name flicker ── */
     @keyframes name-glitch {
       0%   { opacity:1;    clip-path:none; }
       2%   { opacity:0.05; clip-path:inset(40% 0 40% 0); }
@@ -415,29 +325,18 @@
       6%   { opacity:1;    clip-path:none; transform:translateX(0); }
       100% { opacity:1;    clip-path:none; }
     }
-    h1.glitching {
-      animation:name-glitch 0.18s steps(1) forwards;
-    }
+    h1.glitching { animation:name-glitch 0.18s steps(1) forwards; }
 
-    /* ── Blood drip ── */
     #blood-drip {
-      position:absolute;
-      top:0; right:18px;
+      position:absolute; top:0; right:18px;
       width:3px; height:0;
       background:linear-gradient(180deg, #8b0000 0%, #cc0000 60%, transparent 100%);
-      border-radius:0 0 4px 4px;
-      z-index:20;
-      opacity:0;
-      pointer-events:none;
+      border-radius:0 0 4px 4px; z-index:20; opacity:0; pointer-events:none;
     }
     #blood-drip::after {
-      content:'';
-      position:absolute;
-      bottom:-6px; left:-3px;
-      width:9px; height:9px;
-      background:#cc0000;
-      border-radius:50% 50% 60% 60%;
-      opacity:0.85;
+      content:''; position:absolute; bottom:-6px; left:-3px;
+      width:9px; height:9px; background:#cc0000;
+      border-radius:50% 50% 60% 60%; opacity:0.85;
     }
     @keyframes drip-grow {
       0%   { height:0;    opacity:0.9; }
@@ -446,20 +345,8 @@
       100% { height:185px; opacity:0; }
     }
 
-    /* ── 3D tilt — handled via JS inline transform ── */
-
-    /* ── Magnetic buttons — handled via JS ── */
-    .link { transition:
-      transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
-      box-shadow 0.25s ease,
-      border-color 0.25s ease,
-      filter 0.25s ease; }
-
     @media (prefers-reduced-motion:reduce) {
-      .energy-ring::before,
-      .energy-ring::after,
-      .profile-glow,
-      .orb { animation:none; }
+      .energy-ring::before, .energy-ring::after, .profile-glow, .orb { animation:none; }
       .container, body, h1, .link, .profile-wrap { animation:none; opacity:1; transform:none; }
       #vignette { animation:none; }
     }
@@ -545,24 +432,19 @@
   <div class="footer">© 2026 Dominated By Carl</div>
 
 </main>
-</div><!-- #card-tilt -->
+</div>
 
 <script>
-  // ─── Shared mouse state ───────────────────────────────────────────
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
-  // ─── Ember canvas ─────────────────────────────────────────────────
   const canvas = document.getElementById('ember-canvas');
   const ctx = canvas.getContext('2d');
   let W, H, embers = [];
   const isMobile = () => window.innerWidth < 480;
   const COUNT = () => isMobile() ? 38 : 55;
 
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
   resize();
   window.addEventListener('resize', () => { resize(); rebuildEmbers(); });
 
@@ -596,8 +478,6 @@
         if (this.history.length > 6) this.history.shift();
       }
       this.wobble += this.wobbleSpeed;
-
-      // ── Cursor repulsion: embers scatter away from mouse ──
       const dx = this.x - mouseX, dy = this.y - mouseY;
       const dist = Math.sqrt(dx * dx + dy * dy);
       const influence = 110;
@@ -606,7 +486,6 @@
         this.x += (dx / dist) * force;
         this.y += (dy / dist) * force;
       }
-
       this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
       this.y += this.vy;
       this.alpha -= this.decay;
@@ -655,18 +534,15 @@
   function animate() {
     ctx.clearRect(0, 0, W, H);
     for (const e of embers) {
-      e.update();
-      e.draw();
+      e.update(); e.draw();
       if (e.alpha <= 0 || e.y < -60 || e.x < -60 || e.x > W + 60) e.reset(true);
     }
     requestAnimationFrame(animate);
   }
   animate();
 
-  // ─── 3D card tilt ─────────────────────────────────────────────────
   const cardTilt = document.getElementById('card-tilt');
-  let tiltX = 0, tiltY = 0;
-  let targetTiltX = 0, targetTiltY = 0;
+  let tiltX = 0, tiltY = 0, targetTiltX = 0, targetTiltY = 0;
   const MAX_TILT = 9;
 
   function applyTilt() {
@@ -687,63 +563,65 @@
     targetTiltX = -dy * MAX_TILT;
   });
 
-  window.addEventListener('mouseleave', () => {
-    targetTiltX = 0;
-    targetTiltY = 0;
-  });
-
+  window.addEventListener('mouseleave', () => { targetTiltX = 0; targetTiltY = 0; });
   applyTilt();
 
-  // ─── Magnetic buttons ─────────────────────────────────────────────
-  // Hover/active lift is handled entirely by CSS (:hover / :active below) —
-  // JS never touches it. JS only owns the horizontal magnet pull, and it
-  // caches each button's rect *once* (updated on resize/scroll, not every
-  // mousemove) so that the pull itself never causes the button to drift
-  // out from under the cursor and re-trigger its own hover state — that
-  // feedback loop was what caused the flicker and swallowed clicks.
   document.querySelectorAll('.link').forEach(btn => {
-    const RADIUS = 90, STRENGTH = 0.38;
-    let bx = 0, by = 0, active = false;
-    let rect = btn.getBoundingClientRect();
+    const RADIUS = 100, STRENGTH = 0.36;
+    const ENTER_R = 90, LEAVE_R = 110;
+    let bx = 0, by = 0, targetBx = 0, targetBy = 0;
+    let hovered = false, animDone = false;
+    let cachedCx = 0, cachedCy = 0;
 
-    function refreshRect() { rect = btn.getBoundingClientRect(); }
-    window.addEventListener('resize', refreshRect);
-    window.addEventListener('scroll', refreshRect, { passive: true });
-
-    function magnetLoop() {
-      if (!active) {
-        bx += (0 - bx) * 0.12;
-        by += (0 - by) * 0.12;
-      }
-      if (Math.abs(bx) > 0.05 || Math.abs(by) > 0.05) {
-        btn.style.setProperty('--magnet-x', `${bx}px`);
-        btn.style.setProperty('--magnet-y', `${by}px`);
-      } else {
-        btn.style.removeProperty('--magnet-x');
-        btn.style.removeProperty('--magnet-y');
-      }
-      requestAnimationFrame(magnetLoop);
+    function cacheRect() {
+      const r = btn.getBoundingClientRect();
+      cachedCx = r.left + r.width / 2;
+      cachedCy = r.top + r.height / 2;
     }
-    magnetLoop();
+    cacheRect();
+    window.addEventListener('resize', cacheRect);
+    window.addEventListener('scroll', cacheRect, { passive: true });
+
+    btn.addEventListener('animationend', () => { animDone = true; cacheRect(); }, { once: true });
+
+    function loop() {
+      bx += (targetBx - bx) * 0.15;
+      by += (targetBy - by) * 0.15;
+      if (animDone) {
+        const lift = hovered ? -3 : 0;
+        btn.style.transform = `translate(${bx}px, ${by + lift}px)`;
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
 
     window.addEventListener('mousemove', e => {
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
+      const dx = e.clientX - cachedCx;
+      const dy = e.clientY - cachedCy;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < RADIUS) {
-        active = true;
+      const threshold = hovered ? LEAVE_R : ENTER_R;
+
+      if (dist < threshold) {
+        if (!hovered) { hovered = true; btn.classList.add('is-hovered'); }
         const pull = (1 - dist / RADIUS) * STRENGTH;
-        bx += (dx * pull - bx) * 0.18;
-        by += (dy * pull - by) * 0.18;
+        targetBx = dx * pull;
+        targetBy = dy * pull;
       } else {
-        active = false;
+        if (hovered) { hovered = false; btn.classList.remove('is-hovered'); cacheRect(); }
+        targetBx = 0;
+        targetBy = 0;
       }
+    });
+
+    window.addEventListener('mouseleave', () => {
+      hovered = false;
+      btn.classList.remove('is-hovered');
+      targetBx = 0;
+      targetBy = 0;
+      cacheRect();
     });
   });
 
-  // ─── Name flicker (rare, every 20–30s) ────────────────────────────
   const h1 = document.querySelector('h1');
   function scheduleFlicker() {
     const delay = rand(20000, 30000);
@@ -757,14 +635,11 @@
   }
   scheduleFlicker();
 
-  // ─── Blood drip ───────────────────────────────────────────────────
   const drip = document.getElementById('blood-drip');
-
   function runDrip() {
     drip.style.animation = 'none';
     drip.style.opacity = '0';
     drip.style.height = '0';
-    // Force reflow
     void drip.offsetWidth;
     drip.style.animation = 'drip-grow 3.8s cubic-bezier(0.4,0,0.6,1) forwards';
     drip.addEventListener('animationend', () => {
@@ -772,13 +647,10 @@
       scheduleDrip();
     }, { once: true });
   }
-
   function scheduleDrip() {
-    // On small screens: every 18–28s. Easter egg on desktop: every 45–90s
     const delay = isMobile() ? rand(18000, 28000) : rand(45000, 90000);
     setTimeout(runDrip, delay);
   }
-
   scheduleDrip();
 </script>
 </body>
